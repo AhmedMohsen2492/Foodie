@@ -18,6 +18,7 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
   void initState() {
     super.initState();
     animationController = AnimationController(vsync: this);
+    print("Animation run");
     Future.delayed(const Duration(seconds: 3), () {
       Navigator.pushReplacementNamed(context, StartScreen.routeName);
     });
