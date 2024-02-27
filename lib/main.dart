@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
         SignUpScreen.routeName :(_) => SignUpScreen(),
         LoginScreen.routeName: (_) => LoginScreen(),
       },
-      initialRoute: SplashScreen.routeName,
+      initialRoute: SignUpScreen.routeName,
       debugShowCheckedModeBanner: false,
     );
   }

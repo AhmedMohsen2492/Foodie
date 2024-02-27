@@ -6,8 +6,8 @@ import 'package:foodie/ui/utils/app_colors.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class StartScreen extends StatelessWidget {
-  const StartScreen({Key? key}) : super(key: key);
   static String routeName = "start";
+  late final Gradient gradient;
 
   @override
   Widget build(BuildContext context) {
@@ -28,15 +28,22 @@ class StartScreen extends StatelessWidget {
                   AppAssets.heart,
                 ),
                 SizedBox(
-                  width: 10,
+                  width: 14,
                 ),
                 Text(
                   "Foodie",
                   style: GoogleFonts.abhayaLibre(
                     textStyle: TextStyle(
                       fontSize: 40,
-                      fontWeight: FontWeight.normal,
-                      color: AppColors.prime,
+                      fontWeight: FontWeight.bold,
+                      foreground: Paint()..shader = LinearGradient(
+                          colors: <Color>[
+                            AppColors.prime,
+                            AppColors.prime.withOpacity(0.5),
+                          ],
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter
+                      ).createShader(Rect.fromLTWH(100.0, 100.0, 100.0, 30.0))
                     ),
                   ),
                 ),
