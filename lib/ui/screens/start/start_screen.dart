@@ -7,7 +7,8 @@ import 'package:google_fonts/google_fonts.dart';
 
 class StartScreen extends StatelessWidget {
   static String routeName = "start";
-  late final Gradient gradient;
+
+  const StartScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -27,24 +28,25 @@ class StartScreen extends StatelessWidget {
                 Image.asset(
                   AppAssets.heart,
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 14,
                 ),
                 Text(
                   "Foodie",
                   style: GoogleFonts.abhayaLibre(
                     textStyle: TextStyle(
-                      fontSize: 40,
-                      fontWeight: FontWeight.bold,
-                      foreground: Paint()..shader = LinearGradient(
-                          colors: <Color>[
-                            AppColors.prime,
-                            AppColors.prime.withOpacity(0.5),
-                          ],
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter
-                      ).createShader(Rect.fromLTWH(100.0, 100.0, 100.0, 30.0))
-                    ),
+                        fontSize: 40,
+                        fontWeight: FontWeight.bold,
+                        foreground: Paint()
+                          ..shader = LinearGradient(
+                                  colors: <Color>[
+                                AppColors.prime,
+                                AppColors.prime.withOpacity(0.5),
+                              ],
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter)
+                              .createShader(const Rect.fromLTWH(
+                                  100.0, 100.0, 100.0, 30.0))),
                   ),
                 ),
               ],
@@ -60,15 +62,13 @@ class StartScreen extends StatelessWidget {
                 Image.asset(
                   AppAssets.start_photo,
                 ),
-                SizedBox(
-                  height: 20
-                ),
+                const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () {
                     Navigator.pushNamed(context, SignUpScreen.routeName);
                   },
                   style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(10),
                       backgroundColor: AppColors.lightGreen,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(40),
@@ -82,7 +82,7 @@ class StartScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 12,
                 ),
                 ElevatedButton(
@@ -90,11 +90,11 @@ class StartScreen extends StatelessWidget {
                     Navigator.pushNamed(context, LoginScreen.routeName);
                   },
                   style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(10),
                       backgroundColor: AppColors.darkGreen,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(40),
-                          side: BorderSide(
+                          side: const BorderSide(
                               color: AppColors.lightGreen, width: 1))),
                   child: Text(
                     "Log-in",
