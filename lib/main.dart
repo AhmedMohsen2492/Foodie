@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodie/ui/screens/info/info_screen.dart';
 import 'package:foodie/ui/screens/login/login_screen.dart';
 import 'package:foodie/ui/screens/signup/sign_up_screen.dart';
 import 'package:foodie/ui/screens/splash/splash_screen.dart';
@@ -17,10 +18,11 @@ class MyApp extends StatelessWidget {
       routes: {
         SplashScreen.routeName : (_) => SplashScreen(),
         StartScreen.routeName : (_) => StartScreen(),
-        SignUpScreen.routeName :(_) => SignUpScreen(),
+        SignUpScreen.routeName : (_) => SignUpScreen(),
         LoginScreen.routeName: (_) => LoginScreen(),
+        InfoScreen.routeName : (_) => InfoScreen(),
       },
-      initialRoute: SplashScreen.routeName,
+      initialRoute: InfoScreen.routeName,
       debugShowCheckedModeBanner: false,
     );
   }

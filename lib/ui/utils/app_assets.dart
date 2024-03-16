@@ -7,6 +7,8 @@ abstract class AppAssets {
   static const String signup_bg = "$baseImagePath/signup_bg.png";
   static const String facebook = "$baseImagePath/facebook.png";
   static const String google_logo = "$baseImagePath/google_logo.png";
+  static const String info_bg = "$baseImagePath/info_bg.png";
+  static const String info_design = "$baseImagePath/infoDesign.png";
 
   static const String splash_loading = "assets/lottie/splash_loading.json";
 }
