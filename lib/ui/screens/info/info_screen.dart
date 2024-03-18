@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:foodie/ui/screens/main/main_screen.dart';
 import 'package:foodie/ui/utils/app_colors.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../utils/app_assets.dart';
@@ -69,17 +70,17 @@ class _InfoScreenState extends State<InfoScreen> {
               ),
             ),
             child: Column(
-             crossAxisAlignment: CrossAxisAlignment.stretch,
+              // crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Container(
                     decoration: BoxDecoration(
-                        border: Border(bottom: BorderSide(
-                          color: Color(0xff1E7D58),
-                          width: 1.5, // Underline thickness
-                        ))
-                    ),
+                        border: Border(
+                            bottom: BorderSide(
+                      color: Color(0xff1E7D58),
+                      width: 1.5, // Underline thickness
+                    ))),
                     child: Text(
                       "Your Info :",
                       style: GoogleFonts.abhayaLibre(
@@ -98,14 +99,12 @@ class _InfoScreenState extends State<InfoScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(
-                              "First Name",
-                            style: GoogleFonts.abhayaLibre(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                            )
-                          ),
+                          Text("First Name",
+                              style: GoogleFonts.abhayaLibre(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                              )),
                           TextFormField(
                             decoration: InputDecoration(
                               filled: true,
@@ -119,7 +118,7 @@ class _InfoScreenState extends State<InfoScreen> {
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(30),
                                 borderSide: const BorderSide(
-                                    color:  Color(0xff54D851), width: 2),
+                                    color: Color(0xff54D851), width: 2),
                               ),
                             ),
                           ),
@@ -132,14 +131,12 @@ class _InfoScreenState extends State<InfoScreen> {
                     Expanded(
                       child: Column(
                         children: [
-                          Text(
-                              "Last Name",
+                          Text("Last Name",
                               style: GoogleFonts.abhayaLibre(
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 18,
-                              )
-                          ),
+                              )),
                           TextFormField(
                             decoration: InputDecoration(
                               filled: true,
@@ -153,7 +150,7 @@ class _InfoScreenState extends State<InfoScreen> {
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(30),
                                 borderSide: const BorderSide(
-                                    color:  Color(0xff54D851), width: 2),
+                                    color: Color(0xff54D851), width: 2),
                               ),
                             ),
                           ),
@@ -171,14 +168,12 @@ class _InfoScreenState extends State<InfoScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(
-                              "Height (cm)",
+                          Text("Height (cm)",
                               style: GoogleFonts.abhayaLibre(
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 18,
-                              )
-                          ),
+                              )),
                           TextFormField(
                             keyboardType: TextInputType.number,
                             decoration: InputDecoration(
@@ -193,7 +188,7 @@ class _InfoScreenState extends State<InfoScreen> {
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(30),
                                 borderSide: const BorderSide(
-                                    color:  Color(0xff54D851), width: 2),
+                                    color: Color(0xff54D851), width: 2),
                               ),
                             ),
                           ),
@@ -206,14 +201,12 @@ class _InfoScreenState extends State<InfoScreen> {
                     Expanded(
                       child: Column(
                         children: [
-                          Text(
-                              "Weight (kg)",
+                          Text("Weight (kg)",
                               style: GoogleFonts.abhayaLibre(
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 18,
-                              )
-                          ),
+                              )),
                           TextFormField(
                             keyboardType: TextInputType.number,
                             decoration: InputDecoration(
@@ -228,7 +221,7 @@ class _InfoScreenState extends State<InfoScreen> {
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(30),
                                 borderSide: const BorderSide(
-                                    color:  Color(0xff54D851), width: 2),
+                                    color: Color(0xff54D851), width: 2),
                               ),
                             ),
                           ),
@@ -246,14 +239,12 @@ class _InfoScreenState extends State<InfoScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(
-                              "Age",
+                          Text("Age",
                               style: GoogleFonts.abhayaLibre(
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 18,
-                              )
-                          ),
+                              )),
                           TextFormField(
                             keyboardType: TextInputType.number,
                             decoration: InputDecoration(
@@ -268,7 +259,7 @@ class _InfoScreenState extends State<InfoScreen> {
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(30),
                                 borderSide: const BorderSide(
-                                    color:  Color(0xff54D851), width: 2),
+                                    color: Color(0xff54D851), width: 2),
                               ),
                             ),
                           ),
@@ -281,14 +272,12 @@ class _InfoScreenState extends State<InfoScreen> {
                     Expanded(
                       child: Column(
                         children: [
-                          Text(
-                              "Gender",
+                          Text("Gender",
                               style: GoogleFonts.abhayaLibre(
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 18,
-                              )
-                          ),
+                              )),
                           DropdownButtonFormField(
                             items: [
                               DropdownMenuItem(
@@ -312,19 +301,21 @@ class _InfoScreenState extends State<InfoScreen> {
                               contentPadding: EdgeInsets.all(8),
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(30),
-                                borderSide: BorderSide(color: Color(0xff54D851), width: 2),
+                                borderSide: BorderSide(
+                                    color: Color(0xff54D851), width: 2),
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(30),
-                                borderSide: BorderSide(color: Color(0xff54D851), width: 2),
+                                borderSide: BorderSide(
+                                    color: Color(0xff54D851), width: 2),
                               ),
                             ),
                             isExpanded: true,
                             value: gender,
                             onChanged: (value) {
-                             setState(() {
-                               gender = value!;
-                             });
+                              setState(() {
+                                gender = value!;
+                              });
                             },
                           )
                         ],
@@ -336,6 +327,30 @@ class _InfoScreenState extends State<InfoScreen> {
                   height: 20,
                 ),
                 Text("Choose the disease you suffer from ."),
+                Spacer(),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                        MainScreen.routeName, (route) => false);
+                  },
+                  style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 30,
+                        vertical: 10,
+                      ),
+                      backgroundColor: const Color(0xff54D851),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(40),
+                      )),
+                  child: Text(
+                    "Done",
+                    style: GoogleFonts.abhayaLibre(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.prime,
+                    ),
+                  ),
+                ),
               ],
             ),
           ),

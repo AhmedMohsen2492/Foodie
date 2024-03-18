@@ -5,13 +5,14 @@ import 'package:lottie/lottie.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
-  static String routeName = "splash" ;
+  static String routeName = "splash";
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMixin {
+class _SplashScreenState extends State<SplashScreen>
+    with TickerProviderStateMixin {
   late final AnimationController animationController;
 
   @override
@@ -37,13 +38,13 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
       children: [
         Image.asset(
           width: MediaQuery.sizeOf(context).width,
-            AppAssets.splash,
-            fit: BoxFit.fill,
+          AppAssets.splash,
+          fit: BoxFit.fill,
         ),
         Lottie.asset(
           AppAssets.splash_loading,
-          width: MediaQuery.sizeOf(context).width/4,
-          height: MediaQuery.sizeOf(context).height/3,
+          width: MediaQuery.sizeOf(context).width / 4,
+          height: MediaQuery.sizeOf(context).height / 3,
         ),
       ],
     );

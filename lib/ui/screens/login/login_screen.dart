@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:foodie/ui/screens/info/info_screen.dart';
 import 'package:foodie/ui/utils/app_assets.dart';
 import 'package:foodie/ui/utils/app_colors.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -205,8 +208,11 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                               ElevatedButton(
                                 onPressed: () {
-                                  if (formKey.currentState!.validate() &&
-                                      isChecked == true) {}
+                                  // if (formKey.currentState!.validate() &&
+                                  //     isChecked == true) {}
+                                  Navigator.of(context).pushNamedAndRemoveUntil(
+                                      InfoScreen.routeName, (route) => false);
+                                  //Navigator.pushReplacementNamed(context, InfoScreen.routeName);
                                 },
                                 style: ElevatedButton.styleFrom(
                                     padding: const EdgeInsets.symmetric(
