@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:foodie/ui/screens/chatBot/chat_bot_screen.dart';
 import 'package:foodie/ui/screens/home/food_widget.dart';
 import 'package:foodie/ui/screens/info/info_screen.dart';
@@ -17,17 +15,17 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-enum menuItem { editProfile, logout }
+enum MenuItem { editProfile, logout }
 
 class _HomeScreenState extends State<HomeScreen> {
-  menuItem? selectedItem;
+  MenuItem? selectedItem;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xff29AC81),
+      backgroundColor: AppColors.prime,
       appBar: AppBar(
-        backgroundColor: Color(0xff29AC81),
+        backgroundColor: AppColors.prime,
         title: Padding(
           padding: const EdgeInsets.only(left: 10),
           child: Text(
@@ -35,7 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
             style: GoogleFonts.abhayaLibre(
               fontSize: 24,
               fontWeight: FontWeight.bold,
-              color: AppColors.prime,
+              color: AppColors.white,
             ),
           ),
         ),
@@ -44,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
             onPressed: () {
               Navigator.pushNamed(context, ChatBotScreen.routeName);
             },
-            icon: Icon(
+            icon: const Icon(
               Icons.chat,
               color: Colors.white,
             ),
@@ -54,18 +52,18 @@ class _HomeScreenState extends State<HomeScreen> {
             onSelected: (value) {
               setState(() {
                 selectedItem = value;
-                if (selectedItem == menuItem.editProfile) {
+                if (selectedItem == MenuItem.editProfile) {
                   Navigator.pushNamed(context, InfoScreen.routeName);
-                } else if (selectedItem == menuItem.logout) {
+                } else if (selectedItem == MenuItem.logout) {
                   Navigator.pushReplacementNamed(
                       context, StartScreen.routeName);
                 }
               });
             },
-            iconColor: Colors.white,
+            iconColor: AppColors.white,
             itemBuilder: (context) => [
-              PopupMenuItem(
-                value: menuItem.editProfile,
+              const PopupMenuItem(
+                value: MenuItem.editProfile,
                 child: Row(
                   children: [
                     Icon(
@@ -76,13 +74,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     Text(
                       "Edit profile",
-                      style: TextStyle(color: Colors.black),
+                      style: TextStyle(color: AppColors.black),
                     ),
                   ],
                 ),
               ),
-              PopupMenuItem(
-                value: menuItem.logout,
+              const PopupMenuItem(
+                value: MenuItem.logout,
                 child: Row(
                   children: [
                     Icon(
@@ -93,7 +91,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     Text(
                       "Log out",
-                      style: TextStyle(color: Colors.black),
+                      style: TextStyle(color: AppColors.black),
                     ),
                   ],
                 ),
@@ -103,26 +101,41 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       body: Container(
-        padding: EdgeInsets.all(18),
-        decoration: BoxDecoration(
-          color: AppColors.prime,
+        padding: const EdgeInsets.all(18),
+        decoration: const BoxDecoration(
+          color: AppColors.white,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(40),
             topRight: Radius.circular(40),
           ),
         ),
         child: Column(
-          //crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-
-            SizedBox(
+            IconButton(
+                onPressed: () {},
+                icon: Container(
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  height: MediaQuery.of(context).size.height * 0.25,
+                  decoration: BoxDecoration(
+                    color: AppColors.olive,
+                    borderRadius: BorderRadius.circular(1000),
+                    border: Border.all(
+                      width: 25,
+                      color: AppColors.olive,
+                    ),
+                  ),
+                  child: Image.asset(
+                    AppAssets.addButton,
+                  ),
+                )),
+            const SizedBox(
               height: 10,
             ),
             Align(
               alignment: Alignment.centerLeft,
               child: Text("Your Food List :",
                   style: GoogleFonts.abhayaLibre(
-                    color: Colors.black,
+                    color: AppColors.black,
                     fontSize: 25,
                     fontWeight: FontWeight.bold,
                   )),
@@ -130,36 +143,36 @@ class _HomeScreenState extends State<HomeScreen> {
             Expanded(
               child: ListView.builder(
                 itemCount: 20,
-                itemBuilder: (context, index) => FoodWidget(),
+                itemBuilder: (context, index) => const FoodWidget(),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Container(
-              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
               decoration: BoxDecoration(
-                  color: Color(0xff29AC81),
+                  color: AppColors.prime,
                   borderRadius: BorderRadius.circular(20)),
               child: Row(
                 children: [
                   Text("Total",
                       style: GoogleFonts.abhayaLibre(
-                          color: Colors.white,
+                          color: AppColors.white,
                           fontSize: 28,
                           fontWeight: FontWeight.bold)),
-                  Spacer(),
+                  const Spacer(),
                   Text("1000",
                       style: GoogleFonts.abhayaLibre(
-                          color: Colors.white,
+                          color: AppColors.white,
                           fontSize: 28,
                           fontWeight: FontWeight.bold)),
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
                   Text("Kcal",
                       style: GoogleFonts.abhayaLibre(
-                          color: Colors.white,
+                          color: AppColors.white,
                           fontSize: 28,
                           fontWeight: FontWeight.bold)),
                 ],

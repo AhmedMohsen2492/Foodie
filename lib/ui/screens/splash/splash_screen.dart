@@ -19,7 +19,6 @@ class _SplashScreenState extends State<SplashScreen>
   void initState() {
     super.initState();
     animationController = AnimationController(vsync: this);
-    print("Animation run");
     Future.delayed(const Duration(seconds: 3), () {
       Navigator.pushReplacementNamed(context, StartScreen.routeName);
     });
@@ -42,7 +41,7 @@ class _SplashScreenState extends State<SplashScreen>
           fit: BoxFit.fill,
         ),
         Lottie.asset(
-          AppAssets.splash_loading,
+          AppAssets.splashLoading,
           width: MediaQuery.sizeOf(context).width / 4,
           height: MediaQuery.sizeOf(context).height / 3,
         ),

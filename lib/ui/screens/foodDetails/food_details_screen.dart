@@ -5,12 +5,12 @@ import 'package:google_fonts/google_fonts.dart';
 
 class FoodDetailsScreen extends StatelessWidget {
   const FoodDetailsScreen({Key? key}) : super(key: key);
-  static const String routeName = "details" ;
+  static const String routeName = "details";
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xff29AC81),
+      backgroundColor: AppColors.prime,
       appBar: AppBar(
         backgroundColor: AppColors.transparent,
         elevation: 0,
@@ -23,23 +23,21 @@ class FoodDetailsScreen extends StatelessWidget {
                   fontSize: 35,
                   fontWeight: FontWeight.bold,
                   foreground: Paint()
-                    ..shader = LinearGradient(
-                        colors: <Color>[
-                          AppColors.prime,
-                          AppColors.prime.withOpacity(0.5),
-                        ],
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter)
-                        .createShader(const Rect.fromLTWH(
-                        80.0, 80.0, 100.0, 30.0))),
+                    ..shader = LinearGradient(colors: <Color>[
+                      AppColors.white,
+                      AppColors.white.withOpacity(0.5),
+                    ], begin: Alignment.topCenter, end: Alignment.bottomCenter)
+                        .createShader(
+                            const Rect.fromLTWH(80.0, 80.0, 100.0, 30.0))),
             ),
           ),
         ),
       ),
-      body: Container(width: double.infinity,
-        padding: EdgeInsets.all(20),
-        decoration: BoxDecoration(
-          color: AppColors.prime,
+      body: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(20),
+        decoration: const BoxDecoration(
+          color: AppColors.white,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(40),
             topRight: Radius.circular(40),
@@ -48,20 +46,19 @@ class FoodDetailsScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-
             Center(
               child: Text(
-                  "Salad",
+                "Salad",
                 style: GoogleFonts.abhayaLibre(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 50,
+                  color: AppColors.black,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 50,
                 ),
                 overflow: TextOverflow.ellipsis,
               ),
             ),
             Center(
-              child: Container(
+              child: SizedBox(
                 height: MediaQuery.of(context).size.height * 0.32,
                 width: MediaQuery.of(context).size.width * 0.62,
                 child: ClipRRect(
@@ -73,22 +70,43 @@ class FoodDetailsScreen extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 20,),
+            const SizedBox(
+              height: 20,
+            ),
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+              decoration: BoxDecoration(
+                  color: AppColors.prime,
+                  borderRadius: BorderRadius.circular(20)),
+              child: Center(
+                child: Text("Healthy",
+                    style: GoogleFonts.abhayaLibre(
+                        color: AppColors.white,
+                        fontSize: 26,
+                        fontWeight: FontWeight.bold)),
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
             Row(
               children: [
                 Text(
-                    "125",
+                  "125",
                   style: GoogleFonts.abhayaLibre(
-                    color : Color(0xff259E74),
+                    color: AppColors.prime,
                     fontWeight: FontWeight.bold,
                     fontSize: 40,
                   ),
                 ),
-                SizedBox(width: 10,),
+                const SizedBox(
+                  width: 10,
+                ),
                 Text(
-                    "KCal",
+                  "KCal",
                   style: GoogleFonts.abhayaLibre(
-                    color : Color(0xff259E74),
+                    color: AppColors.prime,
                     fontWeight: FontWeight.bold,
                     fontSize: 40,
                   ),
@@ -100,25 +118,27 @@ class FoodDetailsScreen extends StatelessWidget {
                 Text(
                   "Carbs",
                   style: GoogleFonts.abhayaLibre(
-                    color : Colors.black,
+                    color: AppColors.black,
                     fontWeight: FontWeight.bold,
                     fontSize: 30,
                   ),
                 ),
-                Spacer(),
+                const Spacer(),
                 Text(
                   "0",
                   style: GoogleFonts.abhayaLibre(
-                    color : Colors.black,
+                    color: AppColors.black,
                     fontWeight: FontWeight.bold,
                     fontSize: 30,
                   ),
                 ),
-                SizedBox(width: 10,),
+                const SizedBox(
+                  width: 10,
+                ),
                 Text(
                   "g",
                   style: GoogleFonts.abhayaLibre(
-                    color : Colors.black,
+                    color: Colors.black,
                     fontWeight: FontWeight.bold,
                     fontSize: 30,
                   ),
@@ -130,25 +150,27 @@ class FoodDetailsScreen extends StatelessWidget {
                 Text(
                   "Fats",
                   style: GoogleFonts.abhayaLibre(
-                    color : Colors.black,
+                    color: AppColors.black,
                     fontWeight: FontWeight.bold,
                     fontSize: 30,
                   ),
                 ),
-                Spacer(),
+                const Spacer(),
                 Text(
                   "0",
                   style: GoogleFonts.abhayaLibre(
-                    color : Colors.black,
+                    color: AppColors.black,
                     fontWeight: FontWeight.bold,
                     fontSize: 30,
                   ),
                 ),
-                SizedBox(width: 10,),
+                const SizedBox(
+                  width: 10,
+                ),
                 Text(
                   "g",
                   style: GoogleFonts.abhayaLibre(
-                    color : Colors.black,
+                    color: Colors.black,
                     fontWeight: FontWeight.bold,
                     fontSize: 30,
                   ),
@@ -160,25 +182,27 @@ class FoodDetailsScreen extends StatelessWidget {
                 Text(
                   "Protein",
                   style: GoogleFonts.abhayaLibre(
-                    color : Colors.black,
+                    color: AppColors.black,
                     fontWeight: FontWeight.bold,
                     fontSize: 30,
                   ),
                 ),
-                Spacer(),
+                const Spacer(),
                 Text(
                   "0",
                   style: GoogleFonts.abhayaLibre(
-                    color : Colors.black,
+                    color: AppColors.black,
                     fontWeight: FontWeight.bold,
                     fontSize: 30,
                   ),
                 ),
-                SizedBox(width: 10,),
+                const SizedBox(
+                  width: 10,
+                ),
                 Text(
                   "g",
                   style: GoogleFonts.abhayaLibre(
-                    color : Colors.black,
+                    color: Colors.black,
                     fontWeight: FontWeight.bold,
                     fontSize: 30,
                   ),

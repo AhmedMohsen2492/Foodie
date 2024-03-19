@@ -19,16 +19,16 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       routes: {
-        SplashScreen.routeName : (_) => SplashScreen(),
-        StartScreen.routeName : (_) => StartScreen(),
-        SignUpScreen.routeName : (_) => SignUpScreen(),
-        LoginScreen.routeName: (_) => LoginScreen(),
-        InfoScreen.routeName : (_) => InfoScreen(),
-        HomeScreen.routeName : (_) => HomeScreen(),
-        ChatBotScreen.routeName: (_)=> ChatBotScreen(),
-        FoodDetailsScreen.routeName : (_) => FoodDetailsScreen(),
+        SplashScreen.routeName: (_) => const SplashScreen(),
+        StartScreen.routeName: (_) => const StartScreen(),
+        SignUpScreen.routeName: (_) => const SignUpScreen(),
+        LoginScreen.routeName: (_) => const LoginScreen(),
+        InfoScreen.routeName: (_) => InfoScreen(),
+        HomeScreen.routeName: (_) => const HomeScreen(),
+        ChatBotScreen.routeName: (_) => const ChatBotScreen(),
+        FoodDetailsScreen.routeName: (_) => const FoodDetailsScreen(),
       },
-      initialRoute: HomeScreen.routeName,
+      initialRoute: SplashScreen.routeName,
       debugShowCheckedModeBanner: false,
     );
   }

@@ -26,7 +26,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       child: Stack(
         children: [
           Image.asset(
-            AppAssets.signup_bg,
+            AppAssets.signupBg,
             width: double.infinity,
             fit: BoxFit.fill,
           ),
@@ -51,8 +51,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           foreground: Paint()
                             ..shader = LinearGradient(
                                     colors: <Color>[
-                                  AppColors.prime,
-                                  AppColors.prime.withOpacity(0.5),
+                                  AppColors.white,
+                                  AppColors.white.withOpacity(0.5),
                                 ],
                                     begin: Alignment.topCenter,
                                     end: Alignment.bottomCenter)
@@ -80,16 +80,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             Text(
                               "Welcome.",
                               style: GoogleFonts.abhayaLibre(
-                                  color: AppColors.prime,
+                                  color: AppColors.white,
                                   fontSize: 26,
-                                  fontWeight: FontWeight.normal),
+                                  fontWeight: FontWeight.bold),
                             ),
                             Text(
                               "Create Your Account",
                               style: GoogleFonts.abhayaLibre(
-                                  color: AppColors.prime,
+                                  color: AppColors.white,
                                   fontSize: 26,
-                                  fontWeight: FontWeight.normal),
+                                  fontWeight: FontWeight.bold),
                             ),
                           ],
                         ),
@@ -99,7 +99,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           padding: const EdgeInsets.all(14),
                           width: double.infinity,
                           decoration: const BoxDecoration(
-                            color: AppColors.prime,
+                            color: AppColors.white,
                             borderRadius: BorderRadius.only(
                               topRight: Radius.circular(50),
                               topLeft: Radius.circular(50),
@@ -138,11 +138,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   fillColor: AppColors.simpleGreen,
                                   hintText: "Email",
                                   hintStyle: GoogleFonts.abhayaLibre(
-                                    color: const Color(0xff9C9C9C),
+                                    color: AppColors.lightGray,
                                     fontWeight: FontWeight.bold,
                                     fontSize: 20,
                                   ),
-                                  //contentPadding: EdgeInsets.all(14),
                                   enabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(30),
                                     borderSide: const BorderSide(
@@ -201,11 +200,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   fillColor: AppColors.simpleGreen,
                                   hintText: "Password",
                                   hintStyle: GoogleFonts.abhayaLibre(
-                                    color: const Color(0xff9C9C9C),
+                                    color: AppColors.lightGray,
                                     fontWeight: FontWeight.bold,
                                     fontSize: 20,
                                   ),
-                                  //contentPadding: EdgeInsets.all(14),
                                   enabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(30),
                                     borderSide: const BorderSide(
@@ -238,11 +236,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   fillColor: AppColors.simpleGreen,
                                   hintText: "Confirm password",
                                   hintStyle: GoogleFonts.abhayaLibre(
-                                    color: const Color(0xff9C9C9C),
+                                    color: AppColors.lightGray,
                                     fontWeight: FontWeight.bold,
                                     fontSize: 20,
                                   ),
-                                  //contentPadding: EdgeInsets.all(14),
                                   enabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(30),
                                     borderSide: const BorderSide(
@@ -259,8 +256,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 children: [
                                   Checkbox(
                                       side: const BorderSide(
-                                          color: Color(0xff06C62A)),
-                                      activeColor: const Color(0xff06C62A),
+                                          color: AppColors.green),
+                                      activeColor: AppColors.green,
                                       value: isChecked,
                                       onChanged: (newValue) {
                                         setState(() {
@@ -270,7 +267,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   Text(
                                     "I accept the policy and terms",
                                     style: GoogleFonts.abhayaLibre(
-                                        color: const Color(0xff06C62A),
+                                        color: AppColors.green,
                                         fontSize: 20,
                                         fontWeight: FontWeight.bold),
                                   ),
@@ -279,17 +276,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               ElevatedButton(
                                 onPressed: () {
                                   // if (formKey.currentState!.validate() &&
-                                  //     isChecked == true) {}
-                                  Navigator.of(context).pushNamedAndRemoveUntil(
-                                      InfoScreen.routeName, (route) => false);
-                                  //Navigator.pushReplacementNamed(context, InfoScreen.routeName);
+                                  //     isChecked == true) {
+                                  //   Navigator.of(context)
+                                  //       .pushNamedAndRemoveUntil(
+                                  //           InfoScreen.routeName,
+                                  //           (route) => false);
+                                  // }
                                 },
                                 style: ElevatedButton.styleFrom(
                                     padding: const EdgeInsets.symmetric(
                                       horizontal: 30,
                                       vertical: 10,
                                     ),
-                                    backgroundColor: const Color(0xff54D851),
+                                    backgroundColor: AppColors.lightGreen,
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(40),
                                     )),
@@ -298,7 +297,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   style: GoogleFonts.abhayaLibre(
                                     fontSize: 22,
                                     fontWeight: FontWeight.bold,
-                                    color: AppColors.prime,
+                                    color: AppColors.white,
                                   ),
                                 ),
                               ),
@@ -315,11 +314,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     height: 40,
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(50),
-                                        color: const Color(0xffECE9EC)),
+                                        color: AppColors.offWhite),
                                     child: IconButton(
                                       onPressed: () {},
                                       icon: Image.asset(
-                                        AppAssets.google_logo,
+                                        AppAssets.googleLogo,
                                       ),
                                     ),
                                   ),
@@ -330,7 +329,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     height: 40,
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(50),
-                                        color: const Color(0xffECE9EC)),
+                                        color: AppColors.offWhite),
                                     child: IconButton(
                                       onPressed: () {},
                                       icon: Image.asset(

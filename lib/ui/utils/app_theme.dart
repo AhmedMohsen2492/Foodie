@@ -1,3 +1,1 @@
-abstract class AppTheme {
-
-}
+abstract class AppTheme {}

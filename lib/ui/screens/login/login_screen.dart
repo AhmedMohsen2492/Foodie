@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:foodie/ui/screens/info/info_screen.dart';
 import 'package:foodie/ui/utils/app_assets.dart';
@@ -27,7 +25,7 @@ class _LoginScreenState extends State<LoginScreen> {
       child: Stack(
         children: [
           Image.asset(
-            AppAssets.signup_bg,
+            AppAssets.signupBg,
             width: double.infinity,
             fit: BoxFit.fill,
           ),
@@ -52,8 +50,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           foreground: Paint()
                             ..shader = LinearGradient(
                                     colors: <Color>[
-                                  AppColors.prime,
-                                  AppColors.prime.withOpacity(0.5),
+                                  AppColors.white,
+                                  AppColors.white.withOpacity(0.5),
                                 ],
                                     begin: Alignment.topCenter,
                                     end: Alignment.bottomCenter)
@@ -83,7 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               Text(
                                 "Hello...",
                                 style: GoogleFonts.abhayaLibre(
-                                    color: AppColors.prime,
+                                    color: AppColors.white,
                                     fontSize: 35,
                                     fontWeight: FontWeight.normal),
                               ),
@@ -97,7 +95,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           padding: const EdgeInsets.all(14),
                           width: double.infinity,
                           decoration: const BoxDecoration(
-                            color: AppColors.prime,
+                            color: AppColors.white,
                             borderRadius: BorderRadius.only(
                               topRight: Radius.circular(50),
                               topLeft: Radius.circular(50),
@@ -133,11 +131,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                   fillColor: AppColors.simpleGreen,
                                   hintText: "Email",
                                   hintStyle: GoogleFonts.abhayaLibre(
-                                    color: const Color(0xff9C9C9C),
+                                    color: AppColors.lightGray,
                                     fontWeight: FontWeight.bold,
                                     fontSize: 20,
                                   ),
-                                  //contentPadding: EdgeInsets.all(14),
                                   enabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(30),
                                     borderSide: const BorderSide(
@@ -189,11 +186,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                   fillColor: AppColors.simpleGreen,
                                   hintText: "Password",
                                   hintStyle: GoogleFonts.abhayaLibre(
-                                    color: const Color(0xff9C9C9C),
+                                    color: AppColors.lightGray,
                                     fontWeight: FontWeight.bold,
                                     fontSize: 20,
                                   ),
-                                  //contentPadding: EdgeInsets.all(14),
                                   enabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(30),
                                     borderSide: const BorderSide(
@@ -208,18 +204,19 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                               ElevatedButton(
                                 onPressed: () {
-                                  // if (formKey.currentState!.validate() &&
-                                  //     isChecked == true) {}
-                                  Navigator.of(context).pushNamedAndRemoveUntil(
-                                      InfoScreen.routeName, (route) => false);
-                                  //Navigator.pushReplacementNamed(context, InfoScreen.routeName);
+                                  // if (formKey.currentState!.validate()) {
+                                  //   Navigator.of(context)
+                                  //       .pushNamedAndRemoveUntil(
+                                  //           InfoScreen.routeName,
+                                  //           (route) => false);
+                                  // }
                                 },
                                 style: ElevatedButton.styleFrom(
                                     padding: const EdgeInsets.symmetric(
                                       horizontal: 30,
                                       vertical: 10,
                                     ),
-                                    backgroundColor: const Color(0xff54D851),
+                                    backgroundColor: AppColors.lightGreen,
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(40),
                                     )),
@@ -228,7 +225,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   style: GoogleFonts.abhayaLibre(
                                     fontSize: 22,
                                     fontWeight: FontWeight.bold,
-                                    color: AppColors.prime,
+                                    color: AppColors.white,
                                   ),
                                 ),
                               ),
@@ -242,11 +239,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                     height: 40,
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(50),
-                                        color: const Color(0xffECE9EC)),
+                                        color: AppColors.offWhite),
                                     child: IconButton(
                                       onPressed: () {},
                                       icon: Image.asset(
-                                        AppAssets.google_logo,
+                                        AppAssets.googleLogo,
                                       ),
                                     ),
                                   ),
@@ -257,7 +254,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     height: 40,
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(50),
-                                        color: const Color(0xffECE9EC)),
+                                        color: AppColors.offWhite),
                                     child: IconButton(
                                       onPressed: () {},
                                       icon: Image.asset(

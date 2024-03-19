@@ -15,7 +15,7 @@ class StartScreen extends StatelessWidget {
     return Stack(
       children: [
         Image.asset(
-          AppAssets.start_bg,
+          AppAssets.startBg,
           width: double.infinity,
           fit: BoxFit.fill,
         ),
@@ -40,8 +40,8 @@ class StartScreen extends StatelessWidget {
                         foreground: Paint()
                           ..shader = LinearGradient(
                                   colors: <Color>[
-                                AppColors.prime,
-                                AppColors.prime.withOpacity(0.5),
+                                AppColors.white,
+                                AppColors.white.withOpacity(0.5),
                               ],
                                   begin: Alignment.topCenter,
                                   end: Alignment.bottomCenter)
@@ -60,7 +60,7 @@ class StartScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Image.asset(
-                  AppAssets.start_photo,
+                  AppAssets.startPhoto,
                 ),
                 const SizedBox(height: 20),
                 ElevatedButton(
@@ -78,7 +78,7 @@ class StartScreen extends StatelessWidget {
                     style: GoogleFonts.abhayaLibre(
                       fontSize: 30,
                       fontWeight: FontWeight.normal,
-                      color: AppColors.prime,
+                      color: AppColors.white,
                     ),
                   ),
                 ),
@@ -101,7 +101,7 @@ class StartScreen extends StatelessWidget {
                     style: GoogleFonts.abhayaLibre(
                       fontSize: 30,
                       fontWeight: FontWeight.normal,
-                      color: AppColors.prime,
+                      color: AppColors.white,
                     ),
                   ),
                 ),
