@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:foodie/ui/screens/chatBot/chat_bot_screen.dart';
+import 'package:foodie/ui/screens/foodDetails/food_details_screen.dart';
 import 'package:foodie/ui/screens/info/info_screen.dart';
 import 'package:foodie/ui/screens/login/login_screen.dart';
 import 'package:foodie/ui/screens/signup/sign_up_screen.dart';
@@ -25,8 +26,9 @@ class MyApp extends StatelessWidget {
         InfoScreen.routeName : (_) => InfoScreen(),
         HomeScreen.routeName : (_) => HomeScreen(),
         ChatBotScreen.routeName: (_)=> ChatBotScreen(),
+        FoodDetailsScreen.routeName : (_) => FoodDetailsScreen(),
       },
-      initialRoute: SplashScreen.routeName,
+      initialRoute: HomeScreen.routeName,
       debugShowCheckedModeBanner: false,
     );
   }

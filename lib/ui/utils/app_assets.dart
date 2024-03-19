@@ -10,5 +10,12 @@ abstract class AppAssets {
   static const String info_bg = "$baseImagePath/info_bg.png";
   static const String info_design = "$baseImagePath/infoDesign.png";
 
+  static const String food1 = "$baseImagePath/food1.png";
+  static const String food2 = "$baseImagePath/food2.png";
+
+  static const String add = "$baseImagePath/add.png";
+  static const String addButtonDesign = "$baseImagePath/addButtonDesign.png";
+  static const String nut = "$baseImagePath/nut.png";
+
   static const String splash_loading = "assets/lottie/splash_loading.json";
 }

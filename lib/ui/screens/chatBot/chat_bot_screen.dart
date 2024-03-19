@@ -9,7 +9,12 @@ class ChatBotScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return  Scaffold(
       appBar: AppBar(),
-      body: Center(child: Text("CHAT BOT")),
+      body: Center(child: Text("CHAT BOT",
+      style: TextStyle(
+        color: Colors.black,
+        fontSize: 50,
+        fontWeight: FontWeight.bold,
+      ),)),
     );
   }
 }
