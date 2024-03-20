@@ -5,7 +5,7 @@ import 'package:foodie/ui/utils/app_assets.dart';
 import 'package:foodie/ui/utils/app_colors.dart';
 
 class FoodWidget extends StatelessWidget {
-  const FoodWidget({Key? key}) : super(key: key);
+  const FoodWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
