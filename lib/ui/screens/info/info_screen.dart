@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:foodie/ui/screens/home/home_screen.dart';
 import 'package:foodie/ui/utils/app_colors.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:multi_dropdown/multiselect_dropdown.dart';
 import '../../utils/app_assets.dart';
 
 class InfoScreen extends StatefulWidget {
@@ -15,6 +16,8 @@ class InfoScreen extends StatefulWidget {
 
 class _InfoScreenState extends State<InfoScreen> {
   String gender = "male";
+  final MultiSelectController _controller = MultiSelectController();
+  List<ValueItem> disease = [];
 
   @override
   Widget build(BuildContext context) {
@@ -336,29 +339,61 @@ class _InfoScreenState extends State<InfoScreen> {
                         fontSize: 26,
                         fontWeight: FontWeight.bold),
                   ),
-
-                  //todo multi_select_flutter  || multi_dropdown
-
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.of(context).pushNamedAndRemoveUntil(
-                          HomeScreen.routeName, (route) => false);
-                    },
-                    style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 30,
-                          vertical: 10,
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  MultiSelectDropDown(
+                    controller: _controller,
+                    onOptionSelected: (options) {},
+                    options: const <ValueItem>[
+                      ValueItem(label: 'Diabetes', value: 'Diabetes'),
+                      ValueItem(label: 'heart', value: 'heart'),
+                      ValueItem(label: 'Hypertension', value: 'Hypertension'),
+                      ValueItem(label: 'Hypotension', value: 'Hypotension'),
+                    ],
+                    maxItems: 3,
+                    disabledOptions: const [
+                      ValueItem(label: 'Diabetes', value: 'Diabetes')
+                    ],
+                    selectionType: SelectionType.multi,
+                    chipConfig: const ChipConfig(
+                      wrapType: WrapType.scroll,
+                      backgroundColor: AppColors.lightGreen,
+                    ),
+                    dropdownHeight: 130,
+                    optionTextStyle:
+                        const TextStyle(fontSize: 16, color: AppColors.black),
+                    selectedOptionIcon: const Icon(Icons.check_circle),
+                    borderColor: AppColors.lightGreen,
+                    hintColor: AppColors.darkGreen,
+                    borderWidth: 2,
+                    selectedOptionTextColor: AppColors.prime,
+                    selectedOptions: disease,
+                  ),
+                  const Spacer(),
+                  Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.of(context).pushNamedAndRemoveUntil(
+                            HomeScreen.routeName, (route) => false);
+                      },
+                      style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 30,
+                            vertical: 10,
+                          ),
+                          backgroundColor: const Color(0xff54D851),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(40),
+                          )),
+                      child: Text(
+                        "Done",
+                        style: GoogleFonts.abhayaLibre(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.white,
                         ),
-                        backgroundColor: const Color(0xff54D851),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(40),
-                        )),
-                    child: Text(
-                      "Done",
-                      style: GoogleFonts.abhayaLibre(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.white,
                       ),
                     ),
                   ),

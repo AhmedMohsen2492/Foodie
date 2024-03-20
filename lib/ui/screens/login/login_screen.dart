@@ -205,11 +205,12 @@ class _LoginScreenState extends State<LoginScreen> {
                               ElevatedButton(
                                 onPressed: () {
                                   // if (formKey.currentState!.validate()) {
-                                  //   Navigator.of(context)
-                                  //       .pushNamedAndRemoveUntil(
-                                  //           InfoScreen.routeName,
-                                  //           (route) => false);
+                                  //
                                   // }
+                                  Navigator.of(context)
+                                      .pushNamedAndRemoveUntil(
+                                      InfoScreen.routeName,
+                                          (route) => false);
                                 },
                                 style: ElevatedButton.styleFrom(
                                     padding: const EdgeInsets.symmetric(
