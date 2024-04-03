@@ -1,32 +1,29 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:foodie/data/providers/main_provider.dart';
 import 'package:foodie/ui/screens/chatBot/chat_bot_screen.dart';
-import 'package:foodie/ui/screens/foodDetails/food_details_screen.dart';
 import 'package:foodie/ui/screens/home/food_widget.dart';
 import 'package:foodie/ui/screens/info/info_screen.dart';
 import 'package:foodie/ui/screens/start/start_screen.dart';
 import 'package:foodie/ui/utils/app_assets.dart';
 import 'package:foodie/ui/utils/app_colors.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
-
   static String routeName = "home";
-
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-enum MenuItem { editProfile, logout }
-
 class _HomeScreenState extends State<HomeScreen> {
   MenuItem? selectedItem;
-  File? pickedImage ;
+  late MainProvider provider ;
 
   @override
   Widget build(BuildContext context) {
+
+    provider = Provider.of(context);
     return Scaffold(
       backgroundColor: AppColors.prime,
       appBar: AppBar(
@@ -47,9 +44,10 @@ class _HomeScreenState extends State<HomeScreen> {
             onPressed: () {
               Navigator.pushNamed(context, ChatBotScreen.routeName);
             },
-            icon: const Icon(
-              Icons.chat,
-              color: Colors.white,
+            icon: Image.asset(
+                AppAssets.robot,
+              color: AppColors.white,
+              width: 30,
             ),
           ),
           PopupMenuButton(
@@ -131,20 +129,21 @@ class _HomeScreenState extends State<HomeScreen> {
                       color: AppColors.olive,
                     ),
                   ),
-                  child: pickedImage == null ?
+                  child: provider.pickedImage == null ?
                   Image.asset(AppAssets.addButton):
                   ClipRRect(
                     borderRadius: BorderRadius.circular(600),
-                      child: Image.file(pickedImage!,fit: BoxFit.fill,)),
+                      child: Image.file(provider.pickedImage!,fit: BoxFit.fill,)),
                 ),
             ),
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: ElevatedButton(
                 onPressed: () {
-                  if(pickedImage != null)
+                  if(provider.pickedImage != null)
                     {
-                      scan();
+                      //ApiManager.sendImage("Hema", provider.pickedImage!);
+                      //ApiManager.sendInformation();
                     }
                 },
                 style: ElevatedButton.styleFrom(
@@ -218,6 +217,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+
   void showImagePickerOptions(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -243,7 +243,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   child: IconButton(
                     onPressed: (){
-                      galleryPicker();
+                      provider.galleryPicker(context);
                     },
                     icon: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -275,7 +275,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   child: IconButton(
                     onPressed: () async {
-                      cameraPicker();
+                      provider.cameraPicker(context);
                     },
                     icon: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -304,31 +304,6 @@ class _HomeScreenState extends State<HomeScreen> {
       },
     );
   }
-
-   void cameraPicker() async {
-    var image = await ImagePicker().pickImage(source: ImageSource.camera);
-    if(image == null) return null ;
-   setState(() {
-     pickedImage = File(image.path);
-   });
-   Navigator.of(context).pop();
-   return null;
-  }
-
-  void galleryPicker() async {
-    var image = await ImagePicker().pickImage(source: ImageSource.gallery);
-    if(image == null) return null ;
-    setState(() {
-      pickedImage = File(image.path);
-    });
-    Navigator.of(context).pop();
-  }
-
-  void scan(){
-    Navigator.of(context).pushNamed(
-        FoodDetailsScreen.routeName,
-      arguments: pickedImage
-    );
-  }
-
 }
+
+enum MenuItem { editProfile, logout }

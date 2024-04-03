@@ -83,7 +83,7 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
             ),
             Container(
               width: double.infinity,
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
               decoration: BoxDecoration(
                   color: AppColors.prime,
                   borderRadius: BorderRadius.circular(20)),
@@ -96,7 +96,7 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
               ),
             ),
             const SizedBox(
-              height: 20,
+              height: 10,
             ),
             Row(
               children: [
@@ -105,7 +105,7 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
                   style: GoogleFonts.abhayaLibre(
                     color: AppColors.prime,
                     fontWeight: FontWeight.bold,
-                    fontSize: 40,
+                    fontSize: 35,
                   ),
                 ),
                 const SizedBox(
@@ -116,7 +116,7 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
                   style: GoogleFonts.abhayaLibre(
                     color: AppColors.prime,
                     fontWeight: FontWeight.bold,
-                    fontSize: 40,
+                    fontSize: 35,
                   ),
                 ),
               ],

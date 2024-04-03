@@ -14,4 +14,5 @@ abstract class AppAssets {
   static const String nut = "$baseImagePath/nut.png";
   static const String addButton = "$baseImagePath/addbutton.png";
   static const String splashLoading = "assets/lottie/splash_loading.json";
+  static const String robot = "$baseImagePath/robot.png";
 }
