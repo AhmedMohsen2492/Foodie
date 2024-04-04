@@ -48,7 +48,7 @@ abstract class ApiManager {
     try
     {
       final headers = {'Content-Type': 'application/json'};
-      var uri = Uri.parse("http://192.168.1.1:8000/items");
+      var uri = Uri.parse("http://10.0.2.2:5000/items");
       String body = jsonEncode({
         "Height": 195.5,
         "Weight": 70.2,
