@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
         ChatBotScreen.routeName: (_) => const ChatBotScreen(),
         FoodDetailsScreen.routeName: (_) => const FoodDetailsScreen(),
       },
-      initialRoute: InfoScreen.routeName,
+      initialRoute:HomeScreen.routeName,
       debugShowCheckedModeBanner: false,
     );
   }

@@ -461,24 +461,24 @@ class _InfoScreenState extends State<InfoScreen> {
   }
 
   void doneButton() {
-    ApiManager.sendInformation();
-    // if (formKey.currentState!.validate()) {
-    //   if (controller.selectedOptions.isEmpty) {
-    //     provider.hypertension = false;
-    //     provider.diabetes = false;
-    //   }
-    //   for (int i = 0; i < controller.selectedOptions.length; i++) {
-    //     if (controller.selectedOptions[i].value == "Diabetes") {
-    //       provider.diabetes = true;
-    //     } else if (controller.selectedOptions[i].value == "Hypertension") {
-    //       provider.hypertension = true;
-    //     } else {
-    //       provider.hypertension = false;
-    //       provider.diabetes = false;
-    //     }
-    //   }
-    //   Navigator.of(context).pushNamedAndRemoveUntil(
-    //       HomeScreen.routeName, (route) => false);
-    // }
+    //ApiManager.sendInformation();
+    if (formKey.currentState!.validate()) {
+      if (controller.selectedOptions.isEmpty) {
+        provider.hypertension = false;
+        provider.diabetes = false;
+      }
+      for (int i = 0; i < controller.selectedOptions.length; i++) {
+        if (controller.selectedOptions[i].value == "Diabetes") {
+          provider.diabetes = true;
+        } else if (controller.selectedOptions[i].value == "Hypertension") {
+          provider.hypertension = true;
+        } else {
+          provider.hypertension = false;
+          provider.diabetes = false;
+        }
+      }
+      Navigator.of(context).pushNamedAndRemoveUntil(
+          HomeScreen.routeName, (route) => false);
+    }
   }
 }
