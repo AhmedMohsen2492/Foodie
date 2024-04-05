@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodie/data/api/api_manager.dart';
 import 'package:foodie/data/providers/main_provider.dart';
 import 'package:foodie/ui/screens/chatBot/chat_bot_screen.dart';
 import 'package:foodie/ui/screens/home/food_widget.dart';
@@ -142,8 +143,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 onPressed: () {
                   if(provider.pickedImage != null)
                     {
-                      //ApiManager.sendImage("Hema", provider.pickedImage!);
-                      //ApiManager.sendInformation();
+                      ApiManager.sendImageResponseImage(provider.pickedImage!.path);
                     }
                 },
                 style: ElevatedButton.styleFrom(
