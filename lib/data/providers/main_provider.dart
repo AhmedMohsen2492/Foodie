@@ -11,6 +11,7 @@ import 'package:dio/dio.dart';
 
 class MainProvider extends ChangeNotifier {
   File? pickedImage ;
+  File? detectedImage ;
   bool hypertension = false;
   bool diabetes = false;
   String firstName = "Ahmed";

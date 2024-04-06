@@ -1,8 +1,10 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:foodie/data/providers/main_provider.dart';
 import 'package:foodie/ui/utils/app_assets.dart';
 import 'package:foodie/ui/utils/app_colors.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class FoodDetailsScreen extends StatefulWidget {
   static const String routeName = "details";
@@ -15,10 +17,11 @@ class FoodDetailsScreen extends StatefulWidget {
 
 class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
   late File? scanImage ;
+  late MainProvider provider ;
 
   @override
   Widget build(BuildContext context) {
-    scanImage = ModalRoute.of(context)?.settings.arguments as File? ;
+    provider = Provider.of(context);
     return Scaffold(
       backgroundColor: AppColors.prime,
       appBar: AppBar(
@@ -70,11 +73,10 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
             Center(
               child: SizedBox(
                 height: MediaQuery.of(context).size.height * 0.35,
-                width: MediaQuery.of(context).size.width * 0.7,
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(900000),
-                  child: scanImage == null ? Image.asset(AppAssets.addButton)
-                      : Image.file(scanImage!,fit: BoxFit.fill,),
+                  borderRadius: BorderRadius.circular(20),
+                  child: provider.detectedImage == null ? Image.asset(AppAssets.addButton)
+                      : Image.file(provider.detectedImage!,fit: BoxFit.cover,),
                 ),
               ),
             ),

@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:foodie/data/api/api_manager.dart';
 import 'package:foodie/data/providers/main_provider.dart';
 import 'package:foodie/ui/screens/chatBot/chat_bot_screen.dart';
+import 'package:foodie/ui/screens/foodDetails/food_details_screen.dart';
 import 'package:foodie/ui/screens/home/food_widget.dart';
 import 'package:foodie/ui/screens/info/info_screen.dart';
 import 'package:foodie/ui/screens/start/start_screen.dart';
@@ -131,20 +134,19 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   child: provider.pickedImage == null ?
-                  Image.asset(AppAssets.addButton):
+                  Image.asset(
+                    AppAssets.addButton,
+                  fit: BoxFit.fill,):
                   ClipRRect(
                     borderRadius: BorderRadius.circular(600),
-                      child: Image.file(provider.pickedImage!,fit: BoxFit.fill,)),
+                      child: Image.file(provider.pickedImage!,fit: BoxFit.contain,)),
                 ),
             ),
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: ElevatedButton(
                 onPressed: () {
-                  if(provider.pickedImage != null)
-                    {
-                      ApiManager.sendImageResponseImage(provider.pickedImage!.path);
-                    }
+                  scanButton();
                 },
                 style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(
@@ -303,6 +305,16 @@ class _HomeScreenState extends State<HomeScreen> {
         );
       },
     );
+  }
+
+  void scanButton() async{
+    if(provider.pickedImage != null)
+    {
+      File? file = await ApiManager.sendImageResponseImage(provider.pickedImage!.path);
+      provider.detectedImage = file ;
+      Navigator.pushNamed(context, FoodDetailsScreen.routeName);
+      // ApiManager.sendImageResponseList(provider.pickedImage!.path);
+    }
   }
 }
 
