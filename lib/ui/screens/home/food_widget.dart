@@ -13,7 +13,7 @@ class FoodWidget extends StatelessWidget {
       decoration: BoxDecoration(
           color: AppColors.black,
           borderRadius: BorderRadius.circular(30)),
-      margin: const EdgeInsets.all(10),
+      margin: const EdgeInsets.all(6),
       child: Slidable(
         endActionPane: ActionPane(
           extentRatio: 0.3,
@@ -30,7 +30,7 @@ class FoodWidget extends StatelessWidget {
           ],
         ),
         child: Container(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
               color: AppColors.olive,
               borderRadius: BorderRadius.circular(30)
@@ -41,10 +41,10 @@ class FoodWidget extends StatelessWidget {
                 height: MediaQuery.of(context).size.height * 0.09,
                 width: MediaQuery.of(context).size.width * 0.18,
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(100),
+                  borderRadius: BorderRadius.circular(300),
                   child: Image.asset(
                       AppAssets.food1,
-                    fit: BoxFit.cover,
+                    fit: BoxFit.contain,
                   ),
                 ),
               ),
@@ -57,7 +57,7 @@ class FoodWidget extends StatelessWidget {
                         "Salad",
                       style: TextStyle(
                         color: AppColors.black,
-                        fontSize: 20,
+                        fontSize: 18,
                         fontWeight: FontWeight.bold
                       ),
                       overflow: TextOverflow.ellipsis,
@@ -66,7 +66,7 @@ class FoodWidget extends StatelessWidget {
                         "200",
                       style: TextStyle(
                         color: AppColors.white,
-                        fontSize: 18,
+                        fontSize: 16,
                       ),
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -76,7 +76,7 @@ class FoodWidget extends StatelessWidget {
               const SizedBox(width: 10,),
               ElevatedButton(
                   onPressed: (){
-                    Navigator.pushNamed(context, FoodDetailsScreen.routeName);
+                    //Navigator.pushNamed(context, FoodDetailsScreen.routeName);
                   } ,
                   child: const Text(
                       "Show Details",

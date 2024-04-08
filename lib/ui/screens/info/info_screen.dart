@@ -20,7 +20,7 @@ class InfoScreen extends StatefulWidget {
 class _InfoScreenState extends State<InfoScreen> {
   final MultiSelectController controller = MultiSelectController();
   final formKey = GlobalKey<FormState>();
-  late MainProvider provider ;
+  late MainProvider provider;
 
   @override
   Widget build(BuildContext context) {
@@ -460,8 +460,7 @@ class _InfoScreenState extends State<InfoScreen> {
     );
   }
 
-  void doneButton() {
-    //ApiManager.sendInformation();
+  void doneButton() async {
     if (formKey.currentState!.validate()) {
       if (controller.selectedOptions.isEmpty) {
         provider.hypertension = false;
@@ -477,8 +476,12 @@ class _InfoScreenState extends State<InfoScreen> {
           provider.diabetes = false;
         }
       }
-      Navigator.of(context).pushNamedAndRemoveUntil(
-          HomeScreen.routeName, (route) => false);
+      num? bmr = (await ApiManager.sendInformation(
+          provider.height, provider.weight, provider.age, provider.gender));
+      provider.bmr = bmr!;
+      // ignore: use_build_context_synchronously
+      Navigator.of(context)
+          .pushNamedAndRemoveUntil(HomeScreen.routeName, (route) => false);
     }
   }
 }

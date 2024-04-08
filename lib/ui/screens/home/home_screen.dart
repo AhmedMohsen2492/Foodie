@@ -1,12 +1,13 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:foodie/data/api/api_manager.dart';
 import 'package:foodie/data/providers/main_provider.dart';
 import 'package:foodie/ui/screens/chatBot/chat_bot_screen.dart';
 import 'package:foodie/ui/screens/foodDetails/food_details_screen.dart';
+import 'package:foodie/ui/screens/foodIngrediets/food_ingredients.dart';
 import 'package:foodie/ui/screens/home/food_widget.dart';
 import 'package:foodie/ui/screens/info/info_screen.dart';
+import 'package:foodie/ui/screens/quantitiesOfFood/quantities_of_food.dart';
 import 'package:foodie/ui/screens/start/start_screen.dart';
 import 'package:foodie/ui/utils/app_assets.dart';
 import 'package:foodie/ui/utils/app_colors.dart';
@@ -35,7 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
         title: Padding(
           padding: const EdgeInsets.only(left: 10),
           child: Text(
-            "Hello,Ahmed..",
+            "Hello,${provider.firstName}..",
             style: GoogleFonts.abhayaLibre(
               fontSize: 24,
               fontWeight: FontWeight.bold,
@@ -44,6 +45,14 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.pushNamed(context, FoodIngredients.routeName);
+            },
+            icon: Icon(Icons.screen_search_desktop_outlined,
+            size: 30,
+            color: AppColors.white,),
+          ),
           IconButton(
             onPressed: () {
               Navigator.pushNamed(context, ChatBotScreen.routeName);
@@ -108,7 +117,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       body: Container(
-        padding: const EdgeInsets.all(18),
+        padding: const EdgeInsets.symmetric(vertical: 12,horizontal: 16),
         decoration: const BoxDecoration(
           color: AppColors.white,
           borderRadius: BorderRadius.only(
@@ -127,9 +136,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   height: MediaQuery.of(context).size.height * 0.25,
                   decoration: BoxDecoration(
                     color: AppColors.olive,
-                    borderRadius: BorderRadius.circular(1000),
+                    borderRadius: BorderRadius.circular(9000),
                     border: Border.all(
-                      width: 25,
+                      width: 22,
                       color: AppColors.olive,
                     ),
                   ),
@@ -143,14 +152,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
             ),
             Padding(
-              padding: const EdgeInsets.all(10.0),
+              padding: const EdgeInsets.all(8.0),
               child: ElevatedButton(
                 onPressed: () {
                   scanButton();
                 },
                 style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 30,
+                      horizontal: 50,
                       vertical: 6,
                     ),
                     backgroundColor: const Color(0xff54D851),
@@ -172,7 +181,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Text("Your Food List :",
                   style: GoogleFonts.abhayaLibre(
                     color: AppColors.black,
-                    fontSize: 25,
+                    fontSize: 22,
                     fontWeight: FontWeight.bold,
                   )),
             ),
@@ -190,27 +199,31 @@ class _HomeScreenState extends State<HomeScreen> {
               decoration: BoxDecoration(
                   color: AppColors.prime,
                   borderRadius: BorderRadius.circular(20)),
-              child: Row(
+              child: Column(
                 children: [
-                  Text("Total",
-                      style: GoogleFonts.abhayaLibre(
-                          color: AppColors.white,
-                          fontSize: 28,
-                          fontWeight: FontWeight.bold)),
-                  const Spacer(),
-                  Text("1000",
-                      style: GoogleFonts.abhayaLibre(
-                          color: AppColors.white,
-                          fontSize: 28,
-                          fontWeight: FontWeight.bold)),
-                  const SizedBox(
-                    width: 10,
+                  Row(
+                    children: [
+                      Text("Total",
+                          style: GoogleFonts.abhayaLibre(
+                              color: AppColors.white,
+                              fontSize: 28,
+                              fontWeight: FontWeight.bold)),
+                      const Spacer(),
+                      Text("1000",
+                          style: GoogleFonts.abhayaLibre(
+                              color: AppColors.white,
+                              fontSize: 28,
+                              fontWeight: FontWeight.bold)),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Text("Kcal",
+                          style: GoogleFonts.abhayaLibre(
+                              color: AppColors.white,
+                              fontSize: 28,
+                              fontWeight: FontWeight.bold)),
+                    ],
                   ),
-                  Text("Kcal",
-                      style: GoogleFonts.abhayaLibre(
-                          color: AppColors.white,
-                          fontSize: 28,
-                          fontWeight: FontWeight.bold)),
                 ],
               ),
             ),
@@ -310,10 +323,11 @@ class _HomeScreenState extends State<HomeScreen> {
   void scanButton() async{
     if(provider.pickedImage != null)
     {
-      File? file = await ApiManager.sendImageResponseImage(provider.pickedImage!.path);
-      provider.detectedImage = file ;
-      Navigator.pushNamed(context, FoodDetailsScreen.routeName);
-      // ApiManager.sendImageResponseList(provider.pickedImage!.path);
+     File? file = await ApiManager.sendImageResponseImage(provider.pickedImage!.path);
+     provider.detectedImage = file ;
+     List? elements = await ApiManager.sendImageResponseList(provider.detectedImage!.path);
+     provider.foodElements = elements ;
+     Navigator.pushNamed(context, QuantitiesOfFood.routeName);
     }
   }
 }

@@ -14,12 +14,14 @@ class MainProvider extends ChangeNotifier {
   File? detectedImage ;
   bool hypertension = false;
   bool diabetes = false;
-  String firstName = "Ahmed";
+  String firstName = "First Name";
   String lastName = "Mohsen";
   num height = 176.0;
   num weight = 106.8;
   num age = 21;
   String gender = "male";
+  num bmr = 2700 ;
+  List? foodElements = [] ;
 
   void cameraPicker(BuildContext context) async {
     var image = await ImagePicker().pickImage(source: ImageSource.camera);
