@@ -145,10 +145,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: provider.pickedImage == null ?
                   Image.asset(
                     AppAssets.addButton,
-                  fit: BoxFit.fill,):
+                  fit: BoxFit.cover,):
                   ClipRRect(
                     borderRadius: BorderRadius.circular(600),
-                      child: Image.file(provider.pickedImage!,fit: BoxFit.contain,)),
+                      child: Image.file(provider.pickedImage!,fit: BoxFit.cover,)),
                 ),
             ),
             Padding(
@@ -325,8 +325,6 @@ class _HomeScreenState extends State<HomeScreen> {
     {
      File? file = await ApiManager.sendImageResponseImage(provider.pickedImage!.path);
      provider.detectedImage = file ;
-     List? elements = await ApiManager.sendImageResponseList(provider.detectedImage!.path);
-     provider.foodElements = elements ;
      Navigator.pushNamed(context, QuantitiesOfFood.routeName);
     }
   }

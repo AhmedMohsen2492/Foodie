@@ -211,9 +211,7 @@ class _InfoScreenState extends State<InfoScreen> {
                                   provider.height = num.parse(value);
                                 },
                                 validator: (heightValue) {
-                                  if (heightValue == null ||
-                                      heightValue.isEmpty ||
-                                      heightValue is num) {
+                                  if (!isNumeric(heightValue)) {
                                     return 'Please enter Height';
                                   }
                                   return null;
@@ -255,9 +253,7 @@ class _InfoScreenState extends State<InfoScreen> {
                                   provider.weight = num.parse(value);
                                 },
                                 validator: (weightValue) {
-                                  if (weightValue == null ||
-                                      weightValue.isEmpty ||
-                                      weightValue is num) {
+                                  if (!isNumeric(weightValue)) {
                                     return 'Please enter Weight';
                                   }
                                   return null;
@@ -304,9 +300,7 @@ class _InfoScreenState extends State<InfoScreen> {
                                   provider.age = num.parse(value);
                                 },
                                 validator: (ageValue) {
-                                  if (ageValue == null ||
-                                      ageValue.isEmpty ||
-                                      ageValue is num) {
+                                  if (!isNumeric(ageValue)) {
                                     return 'Please enter Age';
                                   }
                                   return null;
@@ -483,5 +477,16 @@ class _InfoScreenState extends State<InfoScreen> {
       Navigator.of(context)
           .pushNamedAndRemoveUntil(HomeScreen.routeName, (route) => false);
     }
+  }
+
+  bool isNumeric(String? string) {
+    if (string == null || string.isEmpty) {
+      return false;
+    }
+    final number = num.tryParse(string);
+    if (number == null) {
+      return false;
+    }
+    return true;
   }
 }

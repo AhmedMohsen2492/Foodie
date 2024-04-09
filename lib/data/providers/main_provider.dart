@@ -21,7 +21,8 @@ class MainProvider extends ChangeNotifier {
   num age = 21;
   String gender = "male";
   num bmr = 2700 ;
-  List? foodElements = [] ;
+  List values = [] ;
+  Map details = {};
 
   void cameraPicker(BuildContext context) async {
     var image = await ImagePicker().pickImage(source: ImageSource.camera);

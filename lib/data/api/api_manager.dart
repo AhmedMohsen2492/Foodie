@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:dio/dio.dart';
+import 'package:foodie/data/dataModel/ClassNames.dart';
+import 'package:foodie/data/dataModel/DetailsResponse.dart';
 import 'package:foodie/data/providers/main_provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as path;
@@ -10,7 +12,6 @@ import 'package:path_provider/path_provider.dart';
 abstract class ApiManager {
   static String baseUrl = "http://10.0.2.2:5000/food";
 
-  Map m = {"Height": 195.5, "Weight": 70.2, "Age": 30, "Gender": "Male"};
   static Future<File?> sendImageResponseImage(String imagePath) async {
     var request = http.MultipartRequest(
       'POST',
@@ -37,7 +38,7 @@ abstract class ApiManager {
     }
   }
 
-  static Future<List?> sendImageResponseList(String imagePath) async {
+  static Future<List<String>?> sendImageResponseList(String imagePath) async {
     var request = http.MultipartRequest(
       'POST',
       Uri.parse("http://10.0.2.2:5000/food"),
@@ -52,14 +53,15 @@ abstract class ApiManager {
       if (response.statusCode == 200) {
         var responseData = await response.stream.bytesToString();
         Map json = jsonDecode(responseData);
-        List? list = json["class_names"];
-        return list ;
+        ClassNames names = ClassNames.fromJson(json);
+        return names.classNames ;
       } else {
         print('Error: ${response.statusCode}');
       }
     } catch (e) {
       print('Exception: $e');
     }
+    return null;
   }
 
   static Future<num?> sendInformation(num Height,num Weight,num Age, String Gender) async {
@@ -87,4 +89,30 @@ abstract class ApiManager {
       print("Exception : $e");
     }
   }
+
+  static Future<DetailsResponse?> sendQuantities(num bmr,Map details) async{
+    try {
+      final headers = {'Content-Type': 'application/json'};
+      var uri = Uri.parse("http://10.0.2.2:5000/details");
+      String body = jsonEncode({
+        "bmr":bmr,
+        "elements" : details
+      });
+      http.Response response =
+      await http.post(uri, headers: headers, body: body);
+
+      if (response.statusCode >= 200 && response.statusCode < 300
+          && response.body!=null) {
+        Map json = jsonDecode(response.body);
+        DetailsResponse detailsResponse = DetailsResponse.fromJson(json);
+        return detailsResponse ;
+      } else
+      {
+        print("Erorrrr!!!!");
+      }
+    } catch (e) {
+      print("Exception : $e");
+    }
+  }
+
 }
