@@ -1,14 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:foodie/data/api/api_manager.dart';
-import 'package:foodie/data/providers/main_provider.dart';
-import 'package:foodie/ui/screens/foodDetails/food_details_screen.dart';
-import 'package:foodie/ui/utils/app_assets.dart';
-import 'package:foodie/ui/utils/app_colors.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:dio/dio.dart';
-
 import '../dataModel/food_history.dart';
 
 class MainProvider extends ChangeNotifier {
@@ -28,6 +21,17 @@ class MainProvider extends ChangeNotifier {
   Map details = {};
   List<FoodHistory> history = [];
 
+  //todo edit values
+  double maxTotalCalories = 3000;
+  double maxTotalCarbs = 150;
+  double maxTotalFats = 100;
+  double maxTotalProtein = 160;
+
+  bool historyHealthy = false;
+  double historyTotalCalories = 0;
+  double historyTotalCarbs = 0;
+  double historyTotalFats = 0;
+  double historyTotalProtein = 0;
 
   void cameraPicker(BuildContext context) async {
     var image = await ImagePicker().pickImage(source: ImageSource.camera);
@@ -56,4 +60,23 @@ class MainProvider extends ChangeNotifier {
     history.remove(foodHistory);
     notifyListeners();
   }
+
+  void editTotalHistory() {
+    if(history.isEmpty)
+      {
+        historyTotalProtein=0;
+        historyTotalFats=0;
+        historyTotalCarbs=0;
+        historyTotalCalories=0;
+      }
+    for(int i=0;i<history.length;i++)
+      {
+        historyTotalCalories += history[i].calories;
+        historyTotalCarbs += history[i].carbs;
+        historyTotalFats += history[i].fats;
+        historyTotalProtein += history[i].protein;
+      }
+    notifyListeners();
+  }
+
 }

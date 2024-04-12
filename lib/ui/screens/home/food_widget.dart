@@ -2,15 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:foodie/data/dataModel/food_history.dart';
 import 'package:foodie/data/providers/main_provider.dart';
-import 'package:foodie/ui/screens/foodDetails/food_details_screen.dart';
 import 'package:foodie/ui/screens/history/history_screen.dart';
-import 'package:foodie/ui/utils/app_assets.dart';
 import 'package:foodie/ui/utils/app_colors.dart';
 import 'package:provider/provider.dart';
 
 class FoodWidget extends StatelessWidget {
   FoodHistory history;
-  FoodWidget(this.history);
+  FoodWidget(this.history, {super.key});
   late MainProvider provider;
 
   @override
@@ -28,6 +26,7 @@ class FoodWidget extends StatelessWidget {
             SlidableAction(
               onPressed: (_) {
                 provider.deleteFromHistoryList(history);
+                provider.editTotalHistory();
               },
               icon: Icons.delete,
               label: "Delete",
@@ -63,7 +62,7 @@ class FoodWidget extends StatelessWidget {
                   children: [
                     Text(
                       history.name,
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: AppColors.black,
                           fontSize: 18,
                           fontWeight: FontWeight.bold),
@@ -71,7 +70,7 @@ class FoodWidget extends StatelessWidget {
                     ),
                     Text(
                       "${history.calories.round()} kcal",
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: AppColors.white,
                         fontSize: 16,
                       ),

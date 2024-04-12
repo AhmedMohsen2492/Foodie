@@ -251,6 +251,7 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
   saveButton() {
     FoodHistory history = FoodHistory(provider.classNames[0],provider.detectedImage!,healthy!,calories!,protein!,fats!,carbs!);
     provider.addToHistoryList(history);
+    provider.editTotalHistory();
     Navigator.pop(context);
   }
 }

@@ -1,5 +1,7 @@
 import 'dart:io';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:foodie/data/api/api_manager.dart';
 import 'package:foodie/data/providers/main_provider.dart';
 import 'package:foodie/ui/screens/chatBot/chat_bot_screen.dart';
@@ -27,7 +29,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     provider = Provider.of(context);
     return Scaffold(
       backgroundColor: AppColors.prime,
@@ -116,118 +117,203 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      body: Container(
-        padding: const EdgeInsets.symmetric(vertical: 12,horizontal: 16),
-        decoration: const BoxDecoration(
-          color: AppColors.white,
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(40),
-            topRight: Radius.circular(40),
+      body: SingleChildScrollView(
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 12,horizontal: 16),
+          decoration: const BoxDecoration(
+            color: AppColors.white,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(40),
+              topRight: Radius.circular(40),
+            ),
           ),
-        ),
-        child: Column(
-          children: [
-            IconButton(
-                onPressed: () {
-                  showImagePickerOptions(context);
-                },
-                icon: Container(
-                  width: MediaQuery.of(context).size.width * 0.5,
-                  height: MediaQuery.of(context).size.height * 0.25,
-                  decoration: BoxDecoration(
-                    color: AppColors.olive,
-                    borderRadius: BorderRadius.circular(9000),
-                    border: Border.all(
-                      width: 22,
+          child: Column(
+            children: [
+              IconButton(
+                  onPressed: () {
+                    showImagePickerOptions(context);
+                  },
+                  icon: Container(
+                    width: MediaQuery.of(context).size.width * 0.5,
+                    height: MediaQuery.of(context).size.height * 0.25,
+                    decoration: BoxDecoration(
                       color: AppColors.olive,
-                    ),
-                  ),
-                  child: provider.pickedImage == null ?
-                  Image.asset(
-                    AppAssets.addButton,
-                  fit: BoxFit.cover,):
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(600),
-                      child: Image.file(provider.pickedImage!,fit: BoxFit.cover,)),
-                ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ElevatedButton(
-                onPressed: () {
-                  scanButton();
-                },
-                style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 50,
-                      vertical: 6,
-                    ),
-                    backgroundColor: const Color(0xff54D851),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    )),
-                child: Text(
-                  "Scan",
-                  style: GoogleFonts.abhayaLibre(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.white,
-                  ),
-                ),
-              ),
-            ),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text("Your Food List :",
-                  style: GoogleFonts.abhayaLibre(
-                    color: AppColors.black,
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                  )),
-            ),
-            Expanded(
-              child:provider.history.length==0? noData(): ListView.builder(
-                itemCount: provider.history.length,
-                itemBuilder: (context, index) =>  FoodWidget(provider.history[index]),
-              ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-              decoration: BoxDecoration(
-                  color: AppColors.prime,
-                  borderRadius: BorderRadius.circular(20)),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Text("Total",
-                          style: GoogleFonts.abhayaLibre(
-                              color: AppColors.white,
-                              fontSize: 28,
-                              fontWeight: FontWeight.bold)),
-                      const Spacer(),
-                      Text("1000",
-                          style: GoogleFonts.abhayaLibre(
-                              color: AppColors.white,
-                              fontSize: 28,
-                              fontWeight: FontWeight.bold)),
-                      const SizedBox(
-                        width: 10,
+                      borderRadius: BorderRadius.circular(9000),
+                      border: Border.all(
+                        width: 22,
+                        color: AppColors.olive,
                       ),
-                      Text("Kcal",
-                          style: GoogleFonts.abhayaLibre(
-                              color: AppColors.white,
-                              fontSize: 28,
-                              fontWeight: FontWeight.bold)),
-                    ],
+                    ),
+                    child: provider.pickedImage == null ?
+                    Image.asset(
+                      AppAssets.addButton,
+                    fit: BoxFit.cover,):
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(600),
+                        child: Image.file(provider.pickedImage!,fit: BoxFit.cover,)),
                   ),
-                ],
               ),
-            ),
-          ],
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ElevatedButton(
+                  onPressed: () {
+                    scanButton();
+                  },
+                  style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 50,
+                        vertical: 6,
+                      ),
+                      backgroundColor: const Color(0xff54D851),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      )),
+                  child: Text(
+                    "Scan",
+                    style: GoogleFonts.abhayaLibre(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.white,
+                    ),
+                  ),
+                ),
+              ),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text("Your Food List :",
+                    style: GoogleFonts.abhayaLibre(
+                      color: AppColors.black,
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                    )),
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height*0.29,
+                child:provider.history.length==0? noData(): Scrollbar(
+                  thumbVisibility: true,
+                  trackVisibility: true,
+                  child: ListView.builder(
+                    itemCount: provider.history.length,
+                    itemBuilder: (context, index) =>  FoodWidget(provider.history[index]),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(vertical: 10),
+                decoration: BoxDecoration(
+                  color: AppColors.prime,
+                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                ),
+                child: Center(
+                  child: Text(
+                      "Healthy",
+                      style: GoogleFonts.abhayaLibre(
+                          color: AppColors.white,
+                          fontSize: 26,
+                          fontWeight: FontWeight.bold)),
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                decoration: BoxDecoration(
+                    color: AppColors.prime,
+                    borderRadius: BorderRadius.circular(20)),
+                child: Column(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.symmetric(vertical: 5),
+                      width: 200,
+                      decoration: BoxDecoration(
+                        color: AppColors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                      ),
+                      child: Center(
+                        child: Text(
+                            "Total",
+                            style: GoogleFonts.abhayaLibre(
+                                color: AppColors.black,
+                                fontSize: 26,
+                                fontWeight: FontWeight.bold)),
+                      ),
+                    ),
+                    SizedBox(height: 10,),
+                    Row(
+                      children: [
+                        Text("Calories",
+                            style: GoogleFonts.abhayaLibre(
+                                color: AppColors.black,
+                                fontSize: 26,
+                                fontWeight: FontWeight.bold)),
+                        const Spacer(),
+                        Text("${provider.historyTotalCalories.round()} / ${provider.maxTotalCalories.round()} Kcal",
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                            style: GoogleFonts.abhayaLibre(
+                                color: AppColors.white,
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold)),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Text("Carbs",
+                            style: GoogleFonts.abhayaLibre(
+                                color: AppColors.black,
+                                fontSize: 26,
+                                fontWeight: FontWeight.bold)),
+                        const Spacer(),
+                        Text("${provider.historyTotalCarbs.round()} / ${provider.maxTotalCarbs.round()} g",
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                            style: GoogleFonts.abhayaLibre(
+                                color: AppColors.white,
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold)),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Text("Fats",
+                            style: GoogleFonts.abhayaLibre(
+                                color: AppColors.black,
+                                fontSize: 26,
+                                fontWeight: FontWeight.bold)),
+                        const Spacer(),
+                        Text("${provider.historyTotalFats.round()} / ${provider.maxTotalFats.round()} g",
+                            style: GoogleFonts.abhayaLibre(
+                                color: AppColors.white,
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold)),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Text("Protein",
+                            style: GoogleFonts.abhayaLibre(
+                                color: AppColors.black,
+                                fontSize: 26,
+                                fontWeight: FontWeight.bold)),
+                        const Spacer(),
+                        Text("${provider.historyTotalProtein.round()} / ${provider.maxTotalProtein.round()} g",
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                            style: GoogleFonts.abhayaLibre(
+                                color: AppColors.white,
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold)),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

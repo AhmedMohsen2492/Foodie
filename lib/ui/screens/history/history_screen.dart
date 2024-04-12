@@ -186,6 +186,7 @@ class HistoryScreen extends StatelessWidget {
             Center(
               child: ElevatedButton(
                 onPressed: () {
+                  provider.editTotalHistory();
                   provider.deleteFromHistoryList(args);
                   Navigator.pop(context);
                 },
