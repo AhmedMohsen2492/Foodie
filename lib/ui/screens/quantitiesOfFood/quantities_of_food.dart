@@ -159,6 +159,7 @@ class QuantitiesOfFood extends StatelessWidget {
           ),
           TextFormField(
             onChanged: (value) {
+              provider.classNames.add(snapshot?[index]);
               provider.values.insert(index, value);
               provider.details["${snapshot![index]}"] = value ;
             },

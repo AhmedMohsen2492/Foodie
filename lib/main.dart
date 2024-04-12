@@ -3,6 +3,7 @@ import 'package:foodie/data/providers/main_provider.dart';
 import 'package:foodie/ui/screens/chatBot/chat_bot_screen.dart';
 import 'package:foodie/ui/screens/foodDetails/food_details_screen.dart';
 import 'package:foodie/ui/screens/foodIngrediets/food_ingredients.dart';
+import 'package:foodie/ui/screens/history/history_screen.dart';
 import 'package:foodie/ui/screens/info/info_screen.dart';
 import 'package:foodie/ui/screens/login/login_screen.dart';
 import 'package:foodie/ui/screens/quantitiesOfFood/quantities_of_food.dart';
@@ -37,6 +38,7 @@ class MyApp extends StatelessWidget {
         FoodDetailsScreen.routeName: (_) => const FoodDetailsScreen(),
         FoodIngredients.routeName: (_)=> FoodIngredients(),
         QuantitiesOfFood.routeName:(_)=>QuantitiesOfFood(),
+        HistoryScreen.routeName:(_)=>HistoryScreen(),
       },
       initialRoute:SplashScreen.routeName,
       debugShowCheckedModeBanner: false,

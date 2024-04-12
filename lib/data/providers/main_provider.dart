@@ -9,6 +9,8 @@ import 'package:foodie/ui/utils/app_colors.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:dio/dio.dart';
 
+import '../dataModel/food_history.dart';
+
 class MainProvider extends ChangeNotifier {
   File? pickedImage ;
   File? detectedImage ;
@@ -22,7 +24,10 @@ class MainProvider extends ChangeNotifier {
   String gender = "male";
   num bmr = 2700 ;
   List values = [] ;
+  List classNames = [] ;
   Map details = {};
+  List<FoodHistory> history = [];
+
 
   void cameraPicker(BuildContext context) async {
     var image = await ImagePicker().pickImage(source: ImageSource.camera);
@@ -42,4 +47,13 @@ class MainProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void addToHistoryList(FoodHistory foodHistory){
+    history.add(foodHistory);
+    notifyListeners();
+  }
+
+  void deleteFromHistoryList(FoodHistory foodHistory){
+    history.remove(foodHistory);
+    notifyListeners();
+  }
 }

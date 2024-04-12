@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:foodie/data/api/api_manager.dart';
 import 'package:foodie/data/providers/main_provider.dart';
 import 'package:foodie/ui/screens/chatBot/chat_bot_screen.dart';
-import 'package:foodie/ui/screens/foodDetails/food_details_screen.dart';
 import 'package:foodie/ui/screens/foodIngrediets/food_ingredients.dart';
 import 'package:foodie/ui/screens/home/food_widget.dart';
 import 'package:foodie/ui/screens/info/info_screen.dart';
@@ -13,6 +12,7 @@ import 'package:foodie/ui/utils/app_assets.dart';
 import 'package:foodie/ui/utils/app_colors.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -49,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
             onPressed: () {
               Navigator.pushNamed(context, FoodIngredients.routeName);
             },
-            icon: Icon(Icons.screen_search_desktop_outlined,
+            icon: const Icon(Icons.screen_search_desktop_outlined,
             size: 30,
             color: AppColors.white,),
           ),
@@ -186,9 +186,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   )),
             ),
             Expanded(
-              child: ListView.builder(
-                itemCount: 20,
-                itemBuilder: (context, index) => const FoodWidget(),
+              child:provider.history.length==0? noData(): ListView.builder(
+                itemCount: provider.history.length,
+                itemBuilder: (context, index) =>  FoodWidget(provider.history[index]),
               ),
             ),
             const SizedBox(
@@ -327,6 +327,23 @@ class _HomeScreenState extends State<HomeScreen> {
      provider.detectedImage = file ;
      Navigator.pushNamed(context, QuantitiesOfFood.routeName);
     }
+  }
+
+  noData(){
+    return Container(
+      height: 200,
+      width: double.infinity,
+      child: Center(
+        child: Text(
+          "No data yet!!",
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 30,
+            fontWeight: FontWeight.bold
+          ),
+        ),
+      ),
+    );
   }
 }
 

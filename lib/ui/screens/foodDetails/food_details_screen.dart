@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:foodie/data/api/api_manager.dart';
 import 'package:foodie/data/dataModel/DetailsResponse.dart';
+import 'package:foodie/data/dataModel/food_history.dart';
 import 'package:foodie/data/providers/main_provider.dart';
 import 'package:foodie/ui/utils/app_assets.dart';
 import 'package:foodie/ui/utils/app_colors.dart';
@@ -22,6 +23,11 @@ class FoodDetailsScreen extends StatefulWidget {
 class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
   late File? scanImage ;
   late MainProvider provider ;
+  bool? healthy ;
+  double? calories;
+  double? carbs;
+  double? fats;
+  double? protein;
 
   @override
   Widget build(BuildContext context) {
@@ -80,6 +86,11 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
                 future: ApiManager.sendQuantities(provider.bmr, provider.details),
                 builder: (context, snapshot) {
                   if(snapshot.hasData){
+                    healthy = snapshot.data!.healthy ;
+                    calories = snapshot.data!.totalCalories;
+                    carbs = snapshot.data!.totalCarbohydrates;
+                    fats = snapshot.data!.totalFat;
+                    protein = snapshot.data!.totalProtein;
                     return buildDetailsWidget(snapshot.data!);
                   }else{
                     return CircularProgressIndicator();
@@ -141,7 +152,7 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
           children: [
             Expanded(
               child: Text(
-                "${snapshot.totalCalories}",
+                "${snapshot.totalCalories?.round()}",
                 maxLines: 1,
                 overflow: TextOverflow.clip,
                 style: GoogleFonts.abhayaLibre(
@@ -176,7 +187,7 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
             ),
             const Spacer(),
             Text(
-              "${snapshot.totalCarbohydrates} g",
+              "${snapshot.totalCarbohydrates?.round()} g",
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: GoogleFonts.abhayaLibre(
@@ -199,7 +210,7 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
             ),
             const Spacer(),
             Text(
-              "${snapshot.totalFat} g",
+              "${snapshot.totalFat?.round()} g",
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: GoogleFonts.abhayaLibre(
@@ -222,7 +233,7 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
             ),
             const Spacer(),
             Text(
-              "${snapshot.totalProtein} g",
+              "${snapshot.totalProtein?.round()} g",
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: GoogleFonts.abhayaLibre(
@@ -238,6 +249,8 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
   }
 
   saveButton() {
-
+    FoodHistory history = FoodHistory(provider.classNames[0],provider.detectedImage!,healthy!,calories!,protein!,fats!,carbs!);
+    provider.addToHistoryList(history);
+    Navigator.pop(context);
   }
 }
