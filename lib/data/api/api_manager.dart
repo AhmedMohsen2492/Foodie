@@ -115,4 +115,60 @@ abstract class ApiManager {
     }
   }
 
+
+  static Future<List?> searchFoodNames(String input) async {
+    final url = Uri.parse('http://10.0.2.2:5000/search_food');
+
+    final response = await http.post(
+      url,
+      body: jsonEncode({'input': input}),
+      headers: {'Content-Type': 'application/json'},
+    );
+
+    if (response.statusCode == 200) {
+      List foodNames = jsonDecode(response.body);
+      return foodNames;
+    } else
+    {
+      print('Failed to fetch food names: ${response.statusCode}');
+    }
+  }
+
+  static Future<String?> calculateNutrition(String foodName,String quantity) async {
+    final Uri url = Uri.parse('http://10.0.2.2:5000/calculate_nutrition');
+    final response = await http.post(
+      url,
+      body: jsonEncode({
+        'name': foodName,
+        'quantity': quantity,
+      }),
+      headers: {'Content-Type': 'application/json'},
+    );
+
+    if (response.statusCode == 200) {
+        String result = jsonDecode(response.body)['result'];
+        return result;
+    } else
+    {
+      print('Failed to fetch food names: ${response.statusCode}');
+    }
+  }
+
+  static Future<String?> calculateTotalNutrition(List<Map<String, dynamic>> selectedItems) async {
+    final url = Uri.parse('http://10.0.2.2:5000/calculate_total_nutrition');
+    final response = await http.post(
+      url,
+      body: jsonEncode({"total":selectedItems}),
+      headers: {'Content-Type': 'application/json'},
+    );
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+       String result = jsonDecode(response.body)['result'];
+       return result ;
+    } else {
+      print('Failed to fetch food names: ${response.statusCode}');
+    }
+  }
+
 }

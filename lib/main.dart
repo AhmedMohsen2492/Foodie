@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
         QuantitiesOfFood.routeName:(_)=>QuantitiesOfFood(),
         HistoryScreen.routeName:(_)=>HistoryScreen(),
       },
-      initialRoute:SplashScreen.routeName,
+      initialRoute:FoodIngredients.routeName,
       debugShowCheckedModeBanner: false,
     );
   }
