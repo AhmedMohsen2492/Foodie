@@ -474,6 +474,9 @@ class _InfoScreenState extends State<InfoScreen> {
       num? bmr = (await ApiManager.sendInformation(
           provider.height, provider.weight, provider.age, provider.gender));
       provider.bmr = bmr!;
+
+      provider.calculateMacronutrients(provider.bmr as double);
+      print(provider.safety);
       // ignore: use_build_context_synchronously
       Navigator.of(context)
           .pushNamedAndRemoveUntil(HomeScreen.routeName, (route) => false);

@@ -211,12 +211,12 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               Container(
                 padding: const EdgeInsets.symmetric(vertical: 10),
-                decoration: const BoxDecoration(
-                  color: AppColors.prime,
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                decoration: BoxDecoration(
+                  color: provider.historyHealthy ? AppColors.prime : AppColors.darkRed,
+                  borderRadius: const BorderRadius.all(Radius.circular(20)),
                 ),
                 child: Center(
-                  child: Text("Healthy",
+                  child: Text(provider.historyHealthy ? "Healthy" : "UnHealthy",
                       style: GoogleFonts.abhayaLibre(
                           color: AppColors.white,
                           fontSize: 26,
@@ -261,7 +261,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 fontWeight: FontWeight.bold)),
                         const Spacer(),
                         Text(
-                            "${provider.historyTotalCalories.round()} / ${provider.maxTotalCalories.round()} Kcal",
+                            "${provider.historyTotalCalories.round()} / ${provider.bmr.round()} Kcal",
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                             style: GoogleFonts.abhayaLibre(
@@ -279,7 +279,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 fontWeight: FontWeight.bold)),
                         const Spacer(),
                         Text(
-                            "${provider.historyTotalCarbs.round()} / ${provider.maxTotalCarbs.round()} g",
+                            "${provider.historyTotalCarbs.round()} / ${provider.safety["Carbohydrates"]?[1].round()} g",
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                             style: GoogleFonts.abhayaLibre(
@@ -297,7 +297,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 fontWeight: FontWeight.bold)),
                         const Spacer(),
                         Text(
-                            "${provider.historyTotalFats.round()} / ${provider.maxTotalFats.round()} g",
+                            "${provider.historyTotalFats.round()} / ${provider.safety["Fat"]?[1].round()} g",
                             style: GoogleFonts.abhayaLibre(
                                 color: AppColors.white,
                                 fontSize: 24,
@@ -313,7 +313,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 fontWeight: FontWeight.bold)),
                         const Spacer(),
                         Text(
-                            "${provider.historyTotalProtein.round()} / ${provider.maxTotalProtein.round()} g",
+                            "${provider.historyTotalProtein.round()} / ${provider.safety["Protein"]?[1].round()} g",
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                             style: GoogleFonts.abhayaLibre(

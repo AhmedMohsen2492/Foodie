@@ -28,16 +28,40 @@ class MainProvider extends ChangeNotifier {
   List<FoodHistory> history = [];
 
   //todo edit values
-  double maxTotalCalories = 3000;
-  double maxTotalCarbs = 150;
-  double maxTotalFats = 100;
-  double maxTotalProtein = 160;
+  Map<String, List<double>> safety = {};
 
-  bool historyHealthy = false;
+  bool historyHealthy = true;
+
   double historyTotalCalories = 0;
   double historyTotalCarbs = 0;
   double historyTotalFats = 0;
   double historyTotalProtein = 0;
+
+  void calculateMacronutrients(double bmr) {
+    Map<String, double> caloriesPerGram = {
+      'Carbohydrates': 4,
+      'Fat': 9,
+      'Protein': 4
+    };
+
+    Map<String, List<double>> percentageRanges = {
+      'Carbohydrates': [0.45, 0.55],
+      'Fat': [0.30, 0.35],
+      'Protein': [0.15, 0.20]
+    };
+
+    Map<String, List<double>> macronutrientGrams = {};
+    percentageRanges.forEach((nutrient, range) {
+      double lowerRangeCalories = bmr * range[0];
+      double upperRangeCalories = bmr * range[1];
+
+      double lowerRangeGrams = lowerRangeCalories / caloriesPerGram[nutrient]!;
+      double upperRangeGrams = upperRangeCalories / caloriesPerGram[nutrient]!;
+
+      macronutrientGrams[nutrient] = [lowerRangeGrams, upperRangeGrams];
+    });
+    safety = macronutrientGrams;
+  }
 
   void cameraPicker(BuildContext context) async {
     var image = await ImagePicker().pickImage(source: ImageSource.camera);
@@ -63,6 +87,11 @@ class MainProvider extends ChangeNotifier {
     historyTotalFats += foodHistory.fats;
     historyTotalProtein += foodHistory.protein;
     history.add(foodHistory);
+
+    historyHealthy = (historyTotalCalories < bmr &&
+        historyTotalCarbs <= safety['Carbohydrates']![1] &&
+        historyTotalProtein <= safety['Protein']![1] &&
+        historyTotalFats <= safety['Fat']![1]) ;
     notifyListeners();
   }
 
@@ -72,6 +101,10 @@ class MainProvider extends ChangeNotifier {
     historyTotalFats -= foodHistory.fats;
     historyTotalProtein -= foodHistory.protein;
     history.remove(foodHistory);
+    historyHealthy = (historyTotalCalories < bmr &&
+        historyTotalCarbs <= safety['Carbohydrates']![1] &&
+        historyTotalProtein <= safety['Protein']![1] &&
+        historyTotalFats <= safety['Fat']![1]) ;
     notifyListeners();
   }
 
