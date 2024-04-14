@@ -1,8 +1,4 @@
-import 'dart:io';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:foodie/data/api/api_manager.dart';
 import 'package:foodie/data/providers/main_provider.dart';
 import 'package:foodie/ui/screens/chatBot/chat_bot_screen.dart';
 import 'package:foodie/ui/screens/foodIngrediets/food_ingredients.dart';
@@ -15,17 +11,18 @@ import 'package:foodie/ui/utils/app_colors.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
   static String routeName = "home";
+
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
   MenuItem? selectedItem;
-  late MainProvider provider ;
+  late MainProvider provider;
 
   @override
   Widget build(BuildContext context) {
@@ -50,16 +47,18 @@ class _HomeScreenState extends State<HomeScreen> {
             onPressed: () {
               Navigator.pushNamed(context, FoodIngredients.routeName);
             },
-            icon: const Icon(Icons.screen_search_desktop_outlined,
-            size: 30,
-            color: AppColors.white,),
+            icon: const Icon(
+              Icons.screen_search_desktop_outlined,
+              size: 30,
+              color: AppColors.white,
+            ),
           ),
           IconButton(
             onPressed: () {
               Navigator.pushNamed(context, ChatBotScreen.routeName);
             },
             icon: Image.asset(
-                AppAssets.robot,
+              AppAssets.robot,
               color: AppColors.white,
               width: 30,
             ),
@@ -119,7 +118,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: SingleChildScrollView(
         child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 12,horizontal: 16),
+          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
           decoration: const BoxDecoration(
             color: AppColors.white,
             borderRadius: BorderRadius.only(
@@ -130,28 +129,32 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             children: [
               IconButton(
-                  onPressed: () {
-                    showImagePickerOptions(context);
-                  },
-                  icon: Container(
-                    width: MediaQuery.of(context).size.width * 0.5,
-                    height: MediaQuery.of(context).size.height * 0.25,
-                    decoration: BoxDecoration(
+                onPressed: () {
+                  showImagePickerOptions(context);
+                },
+                icon: Container(
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  height: MediaQuery.of(context).size.height * 0.25,
+                  decoration: BoxDecoration(
+                    color: AppColors.olive,
+                    borderRadius: BorderRadius.circular(9000),
+                    border: Border.all(
+                      width: 22,
                       color: AppColors.olive,
-                      borderRadius: BorderRadius.circular(9000),
-                      border: Border.all(
-                        width: 22,
-                        color: AppColors.olive,
-                      ),
                     ),
-                    child: provider.pickedImage == null ?
-                    Image.asset(
-                      AppAssets.addButton,
-                    fit: BoxFit.cover,):
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(600),
-                        child: Image.file(provider.pickedImage!,fit: BoxFit.cover,)),
                   ),
+                  child: provider.pickedImage == null
+                      ? Image.asset(
+                          AppAssets.addButton,
+                          fit: BoxFit.cover,
+                        )
+                      : ClipRRect(
+                          borderRadius: BorderRadius.circular(600),
+                          child: Image.file(
+                            provider.pickedImage!,
+                            fit: BoxFit.cover,
+                          )),
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -188,28 +191,32 @@ class _HomeScreenState extends State<HomeScreen> {
                     )),
               ),
               SizedBox(
-                height: MediaQuery.of(context).size.height*0.29,
-                child:provider.history.length==0? noData(): Scrollbar(
-                  thumbVisibility: true,
-                  trackVisibility: true,
-                  child: ListView.builder(
-                    itemCount: provider.history.length,
-                    itemBuilder: (context, index) =>  FoodWidget(provider.history[index]),
-                  ),
-                ),
+                height: provider.history.isEmpty
+                    ? 65
+                    : MediaQuery.of(context).size.height * 0.29,
+                child: provider.history.isEmpty
+                    ? noData()
+                    : Scrollbar(
+                        thumbVisibility: true,
+                        trackVisibility: true,
+                        child: ListView.builder(
+                          itemCount: provider.history.length,
+                          itemBuilder: (context, index) =>
+                              FoodWidget(provider.history[index]),
+                        ),
+                      ),
               ),
               const SizedBox(
                 height: 10,
               ),
               Container(
-                padding: EdgeInsets.symmetric(vertical: 10),
-                decoration: BoxDecoration(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                decoration: const BoxDecoration(
                   color: AppColors.prime,
                   borderRadius: BorderRadius.all(Radius.circular(20)),
                 ),
                 child: Center(
-                  child: Text(
-                      "Healthy",
+                  child: Text("Healthy",
                       style: GoogleFonts.abhayaLibre(
                           color: AppColors.white,
                           fontSize: 26,
@@ -220,29 +227,31 @@ class _HomeScreenState extends State<HomeScreen> {
                 height: 10,
               ),
               Container(
-                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                 decoration: BoxDecoration(
                     color: AppColors.prime,
                     borderRadius: BorderRadius.circular(20)),
                 child: Column(
                   children: [
                     Container(
-                      padding: EdgeInsets.symmetric(vertical: 5),
+                      padding: const EdgeInsets.symmetric(vertical: 5),
                       width: 200,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: AppColors.white,
                         borderRadius: BorderRadius.all(Radius.circular(20)),
                       ),
                       child: Center(
-                        child: Text(
-                            "Total",
+                        child: Text("Total",
                             style: GoogleFonts.abhayaLibre(
                                 color: AppColors.black,
                                 fontSize: 26,
                                 fontWeight: FontWeight.bold)),
                       ),
                     ),
-                    SizedBox(height: 10,),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     Row(
                       children: [
                         Text("Calories",
@@ -251,7 +260,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 fontSize: 26,
                                 fontWeight: FontWeight.bold)),
                         const Spacer(),
-                        Text("${provider.historyTotalCalories.round()} / ${provider.maxTotalCalories.round()} Kcal",
+                        Text(
+                            "${provider.historyTotalCalories.round()} / ${provider.maxTotalCalories.round()} Kcal",
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                             style: GoogleFonts.abhayaLibre(
@@ -268,7 +278,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 fontSize: 26,
                                 fontWeight: FontWeight.bold)),
                         const Spacer(),
-                        Text("${provider.historyTotalCarbs.round()} / ${provider.maxTotalCarbs.round()} g",
+                        Text(
+                            "${provider.historyTotalCarbs.round()} / ${provider.maxTotalCarbs.round()} g",
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                             style: GoogleFonts.abhayaLibre(
@@ -285,7 +296,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 fontSize: 26,
                                 fontWeight: FontWeight.bold)),
                         const Spacer(),
-                        Text("${provider.historyTotalFats.round()} / ${provider.maxTotalFats.round()} g",
+                        Text(
+                            "${provider.historyTotalFats.round()} / ${provider.maxTotalFats.round()} g",
                             style: GoogleFonts.abhayaLibre(
                                 color: AppColors.white,
                                 fontSize: 24,
@@ -300,7 +312,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 fontSize: 26,
                                 fontWeight: FontWeight.bold)),
                         const Spacer(),
-                        Text("${provider.historyTotalProtein.round()} / ${provider.maxTotalProtein.round()} g",
+                        Text(
+                            "${provider.historyTotalProtein.round()} / ${provider.maxTotalProtein.round()} g",
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                             style: GoogleFonts.abhayaLibre(
@@ -324,14 +337,12 @@ class _HomeScreenState extends State<HomeScreen> {
       context: context,
       builder: (context) {
         return Container(
-          height: MediaQuery.of(context).size.height/4,
+          height: MediaQuery.of(context).size.height / 4,
           width: MediaQuery.of(context).size.width,
           decoration: const BoxDecoration(
             color: AppColors.white,
             borderRadius: BorderRadius.only(
-                topRight: Radius.circular(20),
-                topLeft: Radius.circular(20)
-            ),
+                topRight: Radius.circular(20), topLeft: Radius.circular(20)),
           ),
           child: Row(
             children: [
@@ -340,10 +351,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   margin: const EdgeInsets.all(30),
                   decoration: BoxDecoration(
                       color: AppColors.prime,
-                      borderRadius: BorderRadius.circular(20)
-                  ),
+                      borderRadius: BorderRadius.circular(20)),
                   child: IconButton(
-                    onPressed: (){
+                    onPressed: () {
                       provider.galleryPicker(context);
                     },
                     icon: Column(
@@ -351,7 +361,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: [
                         Icon(
                           Icons.image,
-                          size: MediaQuery.of(context).size.height/12 ,
+                          size: MediaQuery.of(context).size.height / 12,
                           color: AppColors.white,
                         ),
                         const Text(
@@ -359,8 +369,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           style: TextStyle(
                               color: AppColors.white,
                               fontSize: 16,
-                              fontWeight: FontWeight.bold
-                          ),
+                              fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),
@@ -372,8 +381,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   margin: const EdgeInsets.all(30),
                   decoration: BoxDecoration(
                       color: AppColors.prime,
-                      borderRadius: BorderRadius.circular(20)
-                  ),
+                      borderRadius: BorderRadius.circular(20)),
                   child: IconButton(
                     onPressed: () async {
                       provider.cameraPicker(context);
@@ -383,7 +391,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: [
                         Icon(
                           Icons.camera_alt,
-                          size: MediaQuery.of(context).size.height/12 ,
+                          size: MediaQuery.of(context).size.height / 12,
                           color: AppColors.white,
                         ),
                         const Text(
@@ -391,8 +399,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           style: TextStyle(
                               color: AppColors.white,
                               fontSize: 16,
-                              fontWeight: FontWeight.bold
-                          ),
+                              fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),
@@ -406,27 +413,23 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  void scanButton() async{
-    if(provider.pickedImage != null)
-    {
-     File? file = await ApiManager.sendImageResponseImage(provider.pickedImage!.path);
-     provider.detectedImage = file ;
-     Navigator.pushNamed(context, QuantitiesOfFood.routeName);
+  void scanButton() async {
+    if (provider.pickedImage != null) {
+      await provider.addDetectedImage();
+      provider.details = {};
+      // ignore: use_build_context_synchronously
+      Navigator.pushNamed(context, QuantitiesOfFood.routeName);
     }
   }
 
-  noData(){
-    return Container(
-      height: 200,
+  noData() {
+    return const SizedBox(
       width: double.infinity,
       child: Center(
         child: Text(
           "No data yet!!",
           style: TextStyle(
-            color: Colors.black,
-            fontSize: 30,
-            fontWeight: FontWeight.bold
-          ),
+              color: Colors.black, fontSize: 30, fontWeight: FontWeight.bold),
         ),
       ),
     );

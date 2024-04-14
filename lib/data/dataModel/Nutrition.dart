@@ -1,5 +1,4 @@
 class Nutrition {
-
   double? calories;
   double? protein;
   double? fat;
@@ -11,7 +10,8 @@ class Nutrition {
     this.protein,
     this.fat,
     this.satFat,
-    this.carbs,});
+    this.carbs,
+  });
 
   Nutrition.fromJson(dynamic json) {
     calories = json['calories'];

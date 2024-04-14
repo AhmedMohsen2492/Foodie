@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:foodie/data/dataModel/food_history.dart';
@@ -8,7 +10,9 @@ import 'package:provider/provider.dart';
 
 class FoodWidget extends StatelessWidget {
   FoodHistory history;
+
   FoodWidget(this.history, {super.key});
+
   late MainProvider provider;
 
   @override
@@ -26,7 +30,6 @@ class FoodWidget extends StatelessWidget {
             SlidableAction(
               onPressed: (_) {
                 provider.deleteFromHistoryList(history);
-                provider.editTotalHistory();
               },
               icon: Icons.delete,
               label: "Delete",
@@ -84,11 +87,8 @@ class FoodWidget extends StatelessWidget {
               ),
               ElevatedButton(
                   onPressed: () {
-                    Navigator.pushNamed(
-                        context,
-                        HistoryScreen.routeName,
-                      arguments: history
-                    );
+                    Navigator.pushNamed(context, HistoryScreen.routeName,
+                        arguments: history);
                   },
                   child: const Text(
                     "Show Details",

@@ -36,11 +36,11 @@ class MyApp extends StatelessWidget {
         HomeScreen.routeName: (_) => const HomeScreen(),
         ChatBotScreen.routeName: (_) => const ChatBotScreen(),
         FoodDetailsScreen.routeName: (_) => const FoodDetailsScreen(),
-        FoodIngredients.routeName: (_)=> FoodIngredients(),
-        QuantitiesOfFood.routeName:(_)=>QuantitiesOfFood(),
-        HistoryScreen.routeName:(_)=>HistoryScreen(),
+        FoodIngredients.routeName: (_) => const FoodIngredients(),
+        QuantitiesOfFood.routeName: (_) => QuantitiesOfFood(),
+        HistoryScreen.routeName: (_) => HistoryScreen(),
       },
-      initialRoute:FoodIngredients.routeName,
+      initialRoute: SplashScreen.routeName,
       debugShowCheckedModeBanner: false,
     );
   }

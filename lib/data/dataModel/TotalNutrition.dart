@@ -6,11 +6,12 @@ class TotalNutrition {
   double? totalCarbohydrates;
 
   TotalNutrition({
-      this.totalCalories, 
-      this.totalProtein, 
-      this.totalFat, 
-      this.totalSaturatedFat, 
-      this.totalCarbohydrates,});
+    this.totalCalories,
+    this.totalProtein,
+    this.totalFat,
+    this.totalSaturatedFat,
+    this.totalCarbohydrates,
+  });
 
   TotalNutrition.fromJson(dynamic json) {
     totalCalories = json['total_calories'];

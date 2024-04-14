@@ -277,10 +277,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 onPressed: () {
                                   // if (formKey.currentState!.validate() &&
                                   //     isChecked == true) {}
-                                  Navigator.of(context)
-                                      .pushNamedAndRemoveUntil(
-                                      InfoScreen.routeName,
-                                          (route) => false);
+                                  Navigator.of(context).pushNamedAndRemoveUntil(
+                                      InfoScreen.routeName, (route) => false);
                                 },
                                 style: ElevatedButton.styleFrom(
                                     padding: const EdgeInsets.symmetric(

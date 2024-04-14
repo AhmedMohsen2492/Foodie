@@ -30,6 +30,7 @@ class _InfoScreenState extends State<InfoScreen> {
       child: Scaffold(
         backgroundColor: AppColors.prime,
         appBar: AppBar(
+          iconTheme: const IconThemeData(color: AppColors.white),
           backgroundColor: AppColors.transparent,
           elevation: 0,
           title: Row(

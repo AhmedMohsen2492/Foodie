@@ -1,7 +1,5 @@
 import 'dart:io';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:foodie/data/api/api_manager.dart';
 import 'package:foodie/data/dataModel/DetailsResponse.dart';
 import 'package:foodie/data/dataModel/food_history.dart';
@@ -21,9 +19,12 @@ class FoodDetailsScreen extends StatefulWidget {
 }
 
 class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
-  late File? scanImage ;
-  late MainProvider provider ;
-  bool? healthy ;
+  late File? scanImage;
+
+  late MainProvider provider;
+
+  bool? healthy;
+
   double? calories;
   double? carbs;
   double? fats;
@@ -35,6 +36,7 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
     return Scaffold(
       backgroundColor: AppColors.prime,
       appBar: AppBar(
+        iconTheme: const IconThemeData(color: AppColors.white),
         backgroundColor: AppColors.transparent,
         elevation: 0,
         title: Padding(
@@ -74,8 +76,12 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
                 height: MediaQuery.of(context).size.height * 0.35,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(20),
-                  child: provider.detectedImage == null ? Image.asset(AppAssets.addButton)
-                      : Image.file(provider.detectedImage!,fit: BoxFit.cover,),
+                  child: provider.detectedImage == null
+                      ? Image.asset(AppAssets.addButton)
+                      : Image.file(
+                          provider.detectedImage!,
+                          fit: BoxFit.cover,
+                        ),
                 ),
               ),
             ),
@@ -83,21 +89,21 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
               height: 20,
             ),
             FutureBuilder(
-                future: ApiManager.sendQuantities(provider.bmr, provider.details),
+                future:
+                    ApiManager.sendQuantities(provider.bmr, provider.details),
                 builder: (context, snapshot) {
-                  if(snapshot.hasData){
-                    healthy = snapshot.data!.healthy ;
+                  if (snapshot.hasData) {
+                    healthy = snapshot.data!.healthy;
                     calories = snapshot.data!.totalCalories;
                     carbs = snapshot.data!.totalCarbohydrates;
                     fats = snapshot.data!.totalFat;
                     protein = snapshot.data!.totalProtein;
                     return buildDetailsWidget(snapshot.data!);
-                  }else{
-                    return CircularProgressIndicator();
+                  } else {
+                    return const CircularProgressIndicator();
                   }
-                }
-            ),
-            Spacer(),
+                }),
+            const Spacer(),
             Center(
               child: ElevatedButton(
                 onPressed: () {
@@ -128,7 +134,7 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
     );
   }
 
-  buildDetailsWidget(DetailsResponse snapshot){
+  buildDetailsWidget(DetailsResponse snapshot) {
     return Column(
       children: [
         Container(
@@ -138,7 +144,7 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
               color: snapshot.healthy! ? AppColors.prime : AppColors.darkRed,
               borderRadius: BorderRadius.circular(20)),
           child: Center(
-            child: Text( snapshot.healthy! ?"Healthy" : "UnHealthy",
+            child: Text(snapshot.healthy! ? "Healthy" : "UnHealthy",
                 style: GoogleFonts.abhayaLibre(
                     color: AppColors.white,
                     fontSize: 26,
@@ -158,7 +164,7 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
                 style: GoogleFonts.abhayaLibre(
                   color: AppColors.prime,
                   fontWeight: FontWeight.bold,
-                  fontSize: 30,
+                  fontSize: 35,
                 ),
               ),
             ),
@@ -249,9 +255,11 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
   }
 
   saveButton() {
-    FoodHistory history = FoodHistory(provider.classNames[0],provider.detectedImage!,healthy!,calories!,protein!,fats!,carbs!);
+    FoodHistory history = FoodHistory(provider.classNames[0],
+        provider.detectedImage!, healthy!, calories!, protein!, fats!, carbs!);
+
     provider.addToHistoryList(history);
-    provider.editTotalHistory();
+    provider.deleteImages();
     Navigator.pop(context);
   }
 }

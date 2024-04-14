@@ -1,26 +1,31 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:foodie/data/api/api_manager.dart';
 import 'package:foodie/data/providers/main_provider.dart';
 import 'package:foodie/ui/screens/foodDetails/food_details_screen.dart';
-import 'package:foodie/ui/utils/app_assets.dart';
 import 'package:foodie/ui/utils/app_colors.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+// ignore: must_be_immutable
 class QuantitiesOfFood extends StatelessWidget {
-  static String routeName = "quantities" ;
-  late MainProvider provider ;
+  static String routeName = "quantities";
+
+  late MainProvider provider;
+
   final formKey = GlobalKey<FormState>();
   bool data = true;
+
+  QuantitiesOfFood({super.key});
+
   @override
   Widget build(BuildContext context) {
-   provider = Provider.of(context);
+    provider = Provider.of(context);
     return Form(
       key: formKey,
       child: Scaffold(
         backgroundColor: AppColors.prime,
         appBar: AppBar(
+          iconTheme: const IconThemeData(color: AppColors.white),
           backgroundColor: AppColors.transparent,
           elevation: 0,
           title: Padding(
@@ -32,12 +37,15 @@ class QuantitiesOfFood extends StatelessWidget {
                     fontSize: 35,
                     fontWeight: FontWeight.bold,
                     foreground: Paint()
-                      ..shader = LinearGradient(colors: <Color>[
-                        AppColors.white,
-                        AppColors.white.withOpacity(0.5),
-                      ], begin: Alignment.topCenter, end: Alignment.bottomCenter)
+                      ..shader = LinearGradient(
+                              colors: <Color>[
+                            AppColors.white,
+                            AppColors.white.withOpacity(0.5),
+                          ],
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter)
                           .createShader(
-                          const Rect.fromLTWH(80.0, 80.0, 100.0, 30.0))),
+                              const Rect.fromLTWH(80.0, 80.0, 100.0, 30.0))),
               ),
             ),
           ),
@@ -59,8 +67,10 @@ class QuantitiesOfFood extends StatelessWidget {
                 height: MediaQuery.of(context).size.height * 0.25,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(20),
-                  child: provider.detectedImage == null ? Image.asset(AppAssets.addButton)
-                      : Image.file(provider.detectedImage!,fit: BoxFit.cover,),
+                  child: Image.file(
+                    provider.detectedImage!,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
               const SizedBox(
@@ -74,33 +84,41 @@ class QuantitiesOfFood extends StatelessWidget {
                   )),
               Expanded(
                 child: FutureBuilder(
-                  future: ApiManager.sendImageResponseList(provider.detectedImage!.path),
+                  future: ApiManager.sendImageResponseList(
+                      provider.detectedImage!.path),
                   builder: (context, snapshot) {
-                      if(snapshot.hasData)
-                      {
-                        if (snapshot.data!.length == 0){
-                          data = false ;
-                          return Center(child: Text("No detection !!",style: TextStyle(
+                    if (snapshot.hasData) {
+                      if (snapshot.data!.isEmpty) {
+                        data = false;
+                        return const Center(
+                            child: Text(
+                          "No detection !!",
+                          style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
                             fontSize: 30,
-                          ),));
-                        }else
-                          {
-                            return ListView.builder(
-                              itemCount: snapshot.data!.length,
-                              itemBuilder: (context, index) => buildWeightsItem(index,snapshot.data),
-                            );
-                          }
-                      }else if (snapshot.hasError){
-                        return Center(child: Text("Sorry No Data !!",style: TextStyle(
+                          ),
+                        ));
+                      } else {
+                        return ListView.builder(
+                          itemCount: snapshot.data!.length,
+                          itemBuilder: (context, index) =>
+                              buildWeightsItem(index, snapshot.data),
+                        );
+                      }
+                    } else if (snapshot.hasError) {
+                      return Center(
+                          child: Text(
+                        "Sorry No Data !!",
+                        style: TextStyle(
                           color: Colors.red[700],
                           fontWeight: FontWeight.bold,
                           fontSize: 40,
-                        ),));
-                      }else {
-                        return Center(child: CircularProgressIndicator());
-                      }
+                        ),
+                      ));
+                    } else {
+                      return const Center(child: CircularProgressIndicator());
+                    }
                   },
                 ),
               ),
@@ -138,10 +156,10 @@ class QuantitiesOfFood extends StatelessWidget {
     );
   }
 
-  buildWeightsItem(int index,List<String>? snapshot) {
+  buildWeightsItem(int index, List<String>? snapshot) {
     return Container(
-      padding: EdgeInsets.all(10),
-      margin: EdgeInsets.symmetric(vertical: 5,horizontal: 30),
+      padding: const EdgeInsets.all(10),
+      margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 30),
       decoration: BoxDecoration(
         color: AppColors.olive,
         borderRadius: BorderRadius.circular(30),
@@ -161,7 +179,7 @@ class QuantitiesOfFood extends StatelessWidget {
             onChanged: (value) {
               provider.classNames.add(snapshot?[index]);
               provider.values.insert(index, value);
-              provider.details["${snapshot![index]}"] = value ;
+              provider.details[snapshot![index]] = value;
             },
             validator: (q) {
               if (!isNumeric(q)) {
@@ -208,7 +226,6 @@ class QuantitiesOfFood extends StatelessWidget {
 
   calculateButton(BuildContext context) {
     if (formKey.currentState!.validate() && data) {
-      //ApiManager.sendQuantities(provider.bmr,provider.details);
       Navigator.popAndPushNamed(context, FoodDetailsScreen.routeName);
     }
   }

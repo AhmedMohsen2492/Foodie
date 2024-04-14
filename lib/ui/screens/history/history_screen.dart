@@ -1,23 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:foodie/data/api/api_manager.dart';
 import 'package:foodie/data/dataModel/food_history.dart';
 import 'package:foodie/data/providers/main_provider.dart';
-import 'package:foodie/ui/utils/app_assets.dart';
 import 'package:foodie/ui/utils/app_colors.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+// ignore: must_be_immutable
 class HistoryScreen extends StatelessWidget {
   static const String routeName = "history";
   late MainProvider provider;
 
+  HistoryScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
-    FoodHistory args = ModalRoute.of(context)!.settings.arguments as FoodHistory;
+    FoodHistory args =
+        ModalRoute.of(context)!.settings.arguments as FoodHistory;
     provider = Provider.of(context);
-    return  Scaffold(
+    return Scaffold(
       backgroundColor: AppColors.prime,
       appBar: AppBar(
+        iconTheme: const IconThemeData(color: AppColors.white),
         backgroundColor: AppColors.transparent,
         elevation: 0,
         title: Padding(
@@ -34,7 +37,7 @@ class HistoryScreen extends StatelessWidget {
                       AppColors.white.withOpacity(0.5),
                     ], begin: Alignment.topCenter, end: Alignment.bottomCenter)
                         .createShader(
-                        const Rect.fromLTWH(80.0, 80.0, 100.0, 30.0))),
+                            const Rect.fromLTWH(80.0, 80.0, 100.0, 30.0))),
             ),
           ),
         ),
@@ -57,8 +60,10 @@ class HistoryScreen extends StatelessWidget {
                 height: MediaQuery.of(context).size.height * 0.35,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(20),
-                  child: provider.detectedImage == null ? Image.asset(AppAssets.food1)
-                      : Image.file(provider.detectedImage!,fit: BoxFit.fill,),
+                  child: Image.file(
+                    args.image,
+                    fit: BoxFit.fill,
+                  ),
                 ),
               ),
             ),
@@ -69,12 +74,13 @@ class HistoryScreen extends StatelessWidget {
               children: [
                 Container(
                   width: double.infinity,
-                  padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
                   decoration: BoxDecoration(
-                      color: args.healthy! ? AppColors.prime : AppColors.darkRed,
+                      color: args.healthy ? AppColors.prime : AppColors.darkRed,
                       borderRadius: BorderRadius.circular(20)),
                   child: Center(
-                    child: Text( args.healthy! ?"Healthy" : "UnHealthy",
+                    child: Text(args.healthy ? "Healthy" : "UnHealthy",
                         style: GoogleFonts.abhayaLibre(
                             color: AppColors.white,
                             fontSize: 26,
@@ -88,7 +94,7 @@ class HistoryScreen extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Text(
-                        "${args.calories?.round()}",
+                        "${args.calories.round()}",
                         maxLines: 1,
                         overflow: TextOverflow.clip,
                         style: GoogleFonts.abhayaLibre(
@@ -123,7 +129,7 @@ class HistoryScreen extends StatelessWidget {
                     ),
                     const Spacer(),
                     Text(
-                      "${args.carbs?.round()} g",
+                      "${args.carbs.round()} g",
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: GoogleFonts.abhayaLibre(
@@ -146,7 +152,7 @@ class HistoryScreen extends StatelessWidget {
                     ),
                     const Spacer(),
                     Text(
-                      "${args.fats?.round()} g",
+                      "${args.fats.round()} g",
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: GoogleFonts.abhayaLibre(
@@ -169,7 +175,7 @@ class HistoryScreen extends StatelessWidget {
                     ),
                     const Spacer(),
                     Text(
-                      "${args.protein?.round()} g",
+                      "${args.protein.round()} g",
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: GoogleFonts.abhayaLibre(
@@ -182,11 +188,10 @@ class HistoryScreen extends StatelessWidget {
                 ),
               ],
             ),
-            Spacer(),
+            const Spacer(),
             Center(
               child: ElevatedButton(
                 onPressed: () {
-                  provider.editTotalHistory();
                   provider.deleteFromHistoryList(args);
                   Navigator.pop(context);
                 },
@@ -214,5 +219,4 @@ class HistoryScreen extends StatelessWidget {
       ),
     );
   }
-
 }
