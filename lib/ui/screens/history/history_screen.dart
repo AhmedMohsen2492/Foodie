@@ -62,7 +62,7 @@ class HistoryScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20),
                   child: Image.file(
                     args.image,
-                    fit: BoxFit.fill,
+                    fit: BoxFit.contain,
                   ),
                 ),
               ),

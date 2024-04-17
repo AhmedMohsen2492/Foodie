@@ -15,7 +15,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool? isChecked = false;
-  bool isVisible = false;
+  bool isVisible = true;
   final formKey = GlobalKey<FormState>();
 
   @override
@@ -32,6 +32,7 @@ class _LoginScreenState extends State<LoginScreen> {
           Scaffold(
             backgroundColor: AppColors.transparent,
             appBar: AppBar(
+              iconTheme: const IconThemeData(color: AppColors.white),
               toolbarHeight: MediaQuery.sizeOf(context).height / 10,
               title: Row(
                 children: [

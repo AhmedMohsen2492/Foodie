@@ -15,7 +15,7 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   bool? isChecked = false;
-  bool isVisible = false;
+  bool isVisible = true;
   final formKey = GlobalKey<FormState>();
   String? password;
 
@@ -33,6 +33,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           Scaffold(
             backgroundColor: AppColors.transparent,
             appBar: AppBar(
+              iconTheme: const IconThemeData(color: AppColors.white),
               toolbarHeight: MediaQuery.sizeOf(context).height / 10,
               title: Row(
                 children: [
