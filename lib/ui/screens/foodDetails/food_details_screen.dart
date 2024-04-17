@@ -260,6 +260,7 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
 
     provider.addToHistoryList(history);
     provider.deleteImages();
+    provider.classNames = [] ;
     Navigator.pop(context);
   }
 }
