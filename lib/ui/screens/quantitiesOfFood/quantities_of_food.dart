@@ -69,7 +69,7 @@ class QuantitiesOfFood extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20),
                   child: Image.file(
                     provider.detectedImage!,
-                    fit: BoxFit.cover,
+                    fit: BoxFit.contain,
                   ),
                 ),
               ),
@@ -170,7 +170,7 @@ class QuantitiesOfFood extends StatelessWidget {
             "${snapshot?[index]}",
             overflow: TextOverflow.ellipsis,
             style: GoogleFonts.abhayaLibre(
-              fontSize: 24,
+              fontSize: 22,
               fontWeight: FontWeight.bold,
               color: AppColors.white,
             ),

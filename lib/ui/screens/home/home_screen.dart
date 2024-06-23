@@ -34,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
         title: Padding(
           padding: const EdgeInsets.only(left: 10),
           child: Text(
-            "Hello,${provider.firstName}..",
+            "Hello,${provider.firstName}",
             style: GoogleFonts.abhayaLibre(
               fontSize: 24,
               fontWeight: FontWeight.bold,
@@ -48,7 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Navigator.pushNamed(context, FoodIngredients.routeName);
             },
             icon: const Icon(
-              Icons.screen_search_desktop_outlined,
+              Icons.restaurant,
               size: 30,
               color: AppColors.white,
             ),

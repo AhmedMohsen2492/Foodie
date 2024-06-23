@@ -34,13 +34,13 @@ class MyApp extends StatelessWidget {
         LoginScreen.routeName: (_) => const LoginScreen(),
         InfoScreen.routeName: (_) => const InfoScreen(),
         HomeScreen.routeName: (_) => const HomeScreen(),
-        ChatBotScreen.routeName: (_) => const ChatBotScreen(),
+        ChatBotScreen.routeName: (_) =>  ChatBotScreen(),
         FoodDetailsScreen.routeName: (_) => const FoodDetailsScreen(),
         FoodIngredients.routeName: (_) => const FoodIngredients(),
         QuantitiesOfFood.routeName: (_) => QuantitiesOfFood(),
         HistoryScreen.routeName: (_) => HistoryScreen(),
       },
-      initialRoute: SplashScreen.routeName,
+      initialRoute: ChatBotScreen.routeName,
       debugShowCheckedModeBanner: false,
     );
   }

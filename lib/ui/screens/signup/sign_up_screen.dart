@@ -112,7 +112,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Text(
-                                "Sing-up",
+                                "Sign-up",
                                 style: GoogleFonts.abhayaLibre(
                                     fontSize: 35,
                                     fontWeight: FontWeight.bold,
