@@ -194,7 +194,7 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
               bottomRight:index % 2 == 0 ?  const Radius.circular(0) :const Radius.circular(35),
             )),
         child: loading && index==chat.length-1 ? const Center(child: CircularProgressIndicator(
-          color: Colors.blue,
+          color: Colors.white,
         )) : Text(
           "${chat[index]}" ,
           textAlign: index % 2 == 0 ? TextAlign.right : TextAlign.left,

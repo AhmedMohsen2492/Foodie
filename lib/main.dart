@@ -1,5 +1,7 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:foodie/data/providers/main_provider.dart';
+import 'package:foodie/firebase_options.dart';
 import 'package:foodie/ui/screens/chatBot/chat_bot_screen.dart';
 import 'package:foodie/ui/screens/foodDetails/food_details_screen.dart';
 import 'package:foodie/ui/screens/foodIngrediets/food_ingredients.dart';
@@ -13,7 +15,12 @@ import 'package:foodie/ui/screens/start/start_screen.dart';
 import 'package:provider/provider.dart';
 import 'ui/screens/home/home_screen.dart';
 
-void main() {
+void main()  async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
   runApp(ChangeNotifierProvider(
       create: (_) {
         return MainProvider();
@@ -34,13 +41,13 @@ class MyApp extends StatelessWidget {
         LoginScreen.routeName: (_) => const LoginScreen(),
         InfoScreen.routeName: (_) => const InfoScreen(),
         HomeScreen.routeName: (_) => const HomeScreen(),
-        ChatBotScreen.routeName: (_) =>  ChatBotScreen(),
+        ChatBotScreen.routeName: (_) =>  const ChatBotScreen(),
         FoodDetailsScreen.routeName: (_) => const FoodDetailsScreen(),
         FoodIngredients.routeName: (_) => const FoodIngredients(),
         QuantitiesOfFood.routeName: (_) => QuantitiesOfFood(),
         HistoryScreen.routeName: (_) => HistoryScreen(),
       },
-      initialRoute: ChatBotScreen.routeName,
+      initialRoute: SplashScreen.routeName,
       debugShowCheckedModeBanner: false,
     );
   }
