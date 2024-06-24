@@ -1,8 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:foodie/data/api/api_manager.dart';
 import 'package:foodie/ui/utils/app_colors.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_generative_ai/google_generative_ai.dart';
 
 class ChatBotScreen extends StatefulWidget {
   const ChatBotScreen({super.key});
@@ -15,8 +15,9 @@ class ChatBotScreen extends StatefulWidget {
 
 class _ChatBotScreenState extends State<ChatBotScreen> {
   TextEditingController controller = TextEditingController();
+  ScrollController scrollController = ScrollController();
   String message = "";
-  bool send = false;
+  bool  loading = false , send = true;
   List chat = [];
 
   @override
@@ -63,9 +64,10 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
               Expanded(
                 child: chat.isNotEmpty
                     ? ListView.builder(
+                  controller: scrollController,
                         itemCount: chat.length,
                         itemBuilder: (context, index) => chatBotWidget(index))
-                    : Center(
+                    : const Center(
                         child: Text(
                           "Start a new chat",
                           style: TextStyle(
@@ -81,12 +83,12 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
                   message = s;
                   setState(() {});
                 },
-                style: TextStyle(color: AppColors.white, fontSize: 18),
+                style: const TextStyle(color: AppColors.white, fontSize: 18),
                 decoration: InputDecoration(
                   suffixIcon: IconButton(
-                    onPressed: notEmpty(message) ? sendMessage : () {},
+                    onPressed: notEmpty(message)&&send ? sendMessage : () {},
                     icon: Container(
-                        padding: EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
                           color: AppColors.white,
                           borderRadius: BorderRadius.circular(50),
@@ -100,7 +102,7 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
                   filled: true,
                   fillColor: AppColors.prime,
                   hintText: " Type your message...",
-                  hintStyle: TextStyle(
+                  hintStyle: const TextStyle(
                     color: AppColors.white,
                     fontSize: 18,
                   ),
@@ -111,13 +113,13 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(100),
-                    borderSide: BorderSide(
+                    borderSide: const BorderSide(
                       color: AppColors.prime,
                     ),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(100),
-                    borderSide: BorderSide(
+                    borderSide: const BorderSide(
                       color: AppColors.prime,
                       width: 2.0,
                     ),
@@ -130,18 +132,47 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
   }
 
   bool notEmpty(String m) {
-    if (m.isNotEmpty)
+    if (m.isNotEmpty) {
       return true;
-    else
+    } else {
       return false;
+    }
   }
 
-  void sendMessage() {
+  void sendMessage() async {
+    controller.clear();
     chat.add(message);
-    controller.text = "";
-    chat.add('Hi i am Hamasa how can i help you ?');
+    chat.add("");
+    setState(() {
+      loading = true;
+      send = false ;
+      Future.delayed(const Duration(milliseconds: 50), () {
+        scrollController.animateTo(
+            scrollController.position.maxScrollExtent,
+            duration: const Duration(milliseconds: 800),
+            curve: Curves.easeOut
+        );
+      });
+    });
     FocusScope.of(context).unfocus();
-    setState(() {});
+    GenerateContentResponse response =
+    await ApiManager.chatBotResponse(message) ;
+    setState(() {
+      loading = false;
+    });
+    chat.removeAt(chat.length-1);
+    chat.add(response.text?.trim());
+    message="";
+    setState(() {
+      send = true ;
+      Future.delayed(const Duration(milliseconds: 300), () {
+        scrollController.animateTo(
+            scrollController.position.maxScrollExtent,
+            duration: const Duration(milliseconds: 800),
+            curve: Curves.easeOut
+        );
+      });
+    });
   }
 
   Widget chatBotWidget(int index) {
@@ -150,22 +181,24 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
       child: Container(
         margin: EdgeInsets.only(
             top: 10,
-            left: index % 2 == 0 ? MediaQuery.sizeOf(context).width / 3 : 10,
+            left: index % 2 == 0 ? MediaQuery.sizeOf(context).width / 4 : 10,
             bottom: 10,
-            right: index % 2 == 0 ? 10 : MediaQuery.sizeOf(context).width / 3),
-        padding: EdgeInsets.all(12),
+            right: index % 2 == 0 ? 10 : MediaQuery.sizeOf(context).width / 4),
+        padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
             color: index % 2 == 0 ? AppColors.prime : Colors.grey,
             borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(35),
-              topRight: Radius.circular(35),
-              bottomLeft: index % 2 == 0 ?  Radius.circular(35) :Radius.circular(0),
-              bottomRight:index % 2 == 0 ?  Radius.circular(0) :Radius.circular(35),
+              topLeft: const Radius.circular(35),
+              topRight: const Radius.circular(35),
+              bottomLeft: index % 2 == 0 ?  const Radius.circular(35) :const Radius.circular(0),
+              bottomRight:index % 2 == 0 ?  const Radius.circular(0) :const Radius.circular(35),
             )),
-        child: Text(
-          "${chat[index]}",
+        child: loading && index==chat.length-1 ? const Center(child: CircularProgressIndicator(
+          color: Colors.blue,
+        )) : Text(
+          "${chat[index]}" ,
           textAlign: index % 2 == 0 ? TextAlign.right : TextAlign.left,
-          style: TextStyle(
+          style: const TextStyle(
             color: AppColors.white,
             fontSize: 20,
           ),

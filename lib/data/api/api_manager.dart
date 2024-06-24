@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:foodie/data/dataModel/ClassNames.dart';
 import 'package:foodie/data/dataModel/DetailsResponse.dart';
+import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 
@@ -165,5 +166,13 @@ abstract class ApiManager {
       print('Failed to fetch food names: ${response.statusCode}');
     }
     return null;
+  }
+
+  static Future<GenerateContentResponse> chatBotResponse(String message) async {
+    //gemini-pro
+    final model = GenerativeModel(model: 'gemini-1.5-flash', apiKey: 'AIzaSyAAqYQv_QbBnmEdxzscvSWZ2H0rjdVxTY8');
+    final content = [Content.text('$message')];
+    final response = await model.generateContent(content);
+    return response ;
   }
 }
