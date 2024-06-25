@@ -6,10 +6,11 @@ import 'package:image_picker/image_picker.dart';
 import '../dataModel/food_history.dart';
 
 class MainProvider extends ChangeNotifier {
+  String currentUserId= "";
+  String currentUserEmail= "";
+
   File? pickedImage;
-
   File? detectedImage;
-
   bool hypertension = false;
   bool diabetes = false;
   String firstName = "First Name";
@@ -19,11 +20,8 @@ class MainProvider extends ChangeNotifier {
   num age = 21;
   String gender = "male";
   num bmr = 2700;
-
   List values = [];
-
   List classNames = [];
-
   Map details = {};
   List<FoodHistory> history = [];
 
@@ -31,7 +29,6 @@ class MainProvider extends ChangeNotifier {
   Map<String, List<double>> safety = {};
 
   bool historyHealthy = true;
-
   double historyTotalCalories = 0;
   double historyTotalCarbs = 0;
   double historyTotalFats = 0;

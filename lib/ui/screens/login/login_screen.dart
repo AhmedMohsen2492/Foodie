@@ -1,8 +1,15 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:foodie/data/dataModel/app_user.dart';
+import 'package:foodie/data/providers/main_provider.dart';
+import 'package:foodie/ui/screens/home/home_screen.dart';
 import 'package:foodie/ui/screens/info/info_screen.dart';
 import 'package:foodie/ui/utils/app_assets.dart';
 import 'package:foodie/ui/utils/app_colors.dart';
+import 'package:foodie/ui/utils/dilalog_utils.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   static String routeName = "login";
@@ -17,9 +24,13 @@ class _LoginScreenState extends State<LoginScreen> {
   bool? isChecked = false;
   bool isVisible = true;
   final formKey = GlobalKey<FormState>();
+  late MainProvider provider;
+  String password = "";
+  String email = "";
 
   @override
   Widget build(BuildContext context) {
+    provider = Provider.of(context);
     return Form(
       key: formKey,
       child: Stack(
@@ -115,6 +126,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                     color: AppColors.black),
                               ),
                               TextFormField(
+                                onChanged: (value) {
+                                  email = value;
+                                },
                                 validator: (emailValue) {
                                   if (emailValue == null ||
                                       emailValue.isEmpty) {
@@ -149,6 +163,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                               ),
                               TextFormField(
+                                onChanged: (value) {
+                                  password = value;
+                                },
                                 validator: (passwordValue) {
                                   if (passwordValue == null ||
                                       passwordValue.isEmpty) {
@@ -205,11 +222,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                               ElevatedButton(
                                 onPressed: () {
-                                  // if (formKey.currentState!.validate()) {
-                                  //
-                                  // }
-                                  Navigator.of(context).pushNamedAndRemoveUntil(
-                                      InfoScreen.routeName, (route) => false);
+                                 login();
                                 },
                                 style: ElevatedButton.styleFrom(
                                     padding: const EdgeInsets.symmetric(
@@ -277,5 +290,33 @@ class _LoginScreenState extends State<LoginScreen> {
         ],
       ),
     );
+  }
+
+  void login() async {
+    try{
+      showLoading(context);
+      UserCredential userCredential =
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: email,
+          password: password
+      );
+      AppUser currentUser = await getUserFromFireStore(userCredential.user!.uid);
+
+      hideLoading(context);
+      Navigator.of(context).pushNamedAndRemoveUntil(HomeScreen.routeName, (route) => false);
+    }on FirebaseAuthException catch(error)
+    {
+      hideLoading(context);
+      showErrorDialog(context, error.message ?? "Something Went Wrong. please try again!");
+    }
+    // if (formKey.currentState!.validate()) {
+    //
+    // }
+  }
+
+  Future<AppUser> getUserFromFireStore(String id) async{
+    CollectionReference<AppUser> userCollection = AppUser.collection();
+    DocumentSnapshot<AppUser> documentSnapshot = await userCollection.doc(id).get();
+    return documentSnapshot.data()!;
   }
 }

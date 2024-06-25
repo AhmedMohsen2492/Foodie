@@ -1,9 +1,9 @@
 class ClassNames {
+  List<String>? classNames;
+
   ClassNames({
     this.classNames,
   });
-
-  List<String>? classNames;
 
   ClassNames.fromJson(dynamic json) {
     classNames =

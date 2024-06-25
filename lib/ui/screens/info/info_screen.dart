@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:foodie/data/api/api_manager.dart';
+import 'package:foodie/data/dataModel/app_user.dart';
 import 'package:foodie/ui/utils/app_colors.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:multi_dropdown/multiselect_dropdown.dart';
@@ -21,6 +23,7 @@ class _InfoScreenState extends State<InfoScreen> {
   final MultiSelectController controller = MultiSelectController();
   final formKey = GlobalKey<FormState>();
   late MainProvider provider;
+  late AppUser appUser;
 
   @override
   Widget build(BuildContext context) {
@@ -471,6 +474,7 @@ class _InfoScreenState extends State<InfoScreen> {
           provider.diabetes = false;
         }
       }
+
       num? bmr = (await ApiManager.sendInformation(
           provider.height, provider.weight, provider.age, provider.gender));
       provider.bmr = bmr!;
@@ -478,8 +482,17 @@ class _InfoScreenState extends State<InfoScreen> {
       provider.calculateMacronutrients(provider.bmr as double);
       print(provider.safety);
       // ignore: use_build_context_synchronously
-      Navigator.of(context)
-          .pushNamedAndRemoveUntil(HomeScreen.routeName, (route) => false);
+      appUser = AppUser(
+          id: provider.currentUserId,
+          email: provider.currentUserEmail,
+          firstName: provider.firstName,
+          lastName: provider.lastName,
+          age: provider.age,
+          gender: provider.gender,
+          height: provider.height,
+          weight: provider.weight);
+      await registerUserInFireStore(appUser);
+      Navigator.of(context).pushNamedAndRemoveUntil(HomeScreen.routeName, (route) => false);
     }
   }
 
@@ -492,5 +505,10 @@ class _InfoScreenState extends State<InfoScreen> {
       return false;
     }
     return true;
+  }
+
+  Future registerUserInFireStore(AppUser user) async {
+    CollectionReference userCollection = AppUser.collection();
+    await userCollection.doc("${provider.currentUserId}").set(user);
   }
 }

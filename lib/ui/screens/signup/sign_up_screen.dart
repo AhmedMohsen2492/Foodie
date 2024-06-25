@@ -1,8 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:foodie/data/providers/main_provider.dart';
 import 'package:foodie/ui/screens/info/info_screen.dart';
 import 'package:foodie/ui/utils/app_assets.dart';
 import 'package:foodie/ui/utils/app_colors.dart';
+import 'package:foodie/ui/utils/dilalog_utils.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class SignUpScreen extends StatefulWidget {
   static String routeName = "signup";
@@ -17,10 +21,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool? isChecked = false;
   bool isVisible = true;
   final formKey = GlobalKey<FormState>();
-  String? password;
+  String password = "";
+  String email = "";
+  late MainProvider provider;
 
   @override
   Widget build(BuildContext context) {
+    provider = Provider.of(context);
     return Form(
       key: formKey,
       child: Stack(
@@ -122,6 +129,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 height: 10,
                               ),
                               TextFormField(
+                                onChanged: (value) {
+                                  email=value;
+                                },
                                 validator: (emailValue) {
                                   if (emailValue == null ||
                                       emailValue.isEmpty) {
@@ -276,10 +286,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               ),
                               ElevatedButton(
                                 onPressed: () {
-                                  // if (formKey.currentState!.validate() &&
-                                  //     isChecked == true) {}
-                                  Navigator.of(context).pushNamedAndRemoveUntil(
-                                      InfoScreen.routeName, (route) => false);
+                                  signUp();
                                 },
                                 style: ElevatedButton.styleFrom(
                                     padding: const EdgeInsets.symmetric(
@@ -350,5 +357,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
         ],
       ),
     );
+  }
+
+  void signUp() async{
+   try{
+     showLoading(context);
+     UserCredential userCredential =
+     await FirebaseAuth.instance.createUserWithEmailAndPassword(
+         email: email,
+         password: password
+     );
+     provider.currentUserId = userCredential.user!.uid;
+     provider.currentUserEmail = userCredential.user!.email!;
+     hideLoading(context);
+     Navigator.of(context).pushNamedAndRemoveUntil(InfoScreen.routeName, (route) => false);
+   }on FirebaseAuthException catch(error)
+    {
+      hideLoading(context);
+      showErrorDialog(context, error.message ?? "Something Went Wrong. please try again!");
+    }
+    // if (formKey.currentState!.validate() &&
+    //     isChecked == true) {}
   }
 }
