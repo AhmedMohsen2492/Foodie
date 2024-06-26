@@ -23,7 +23,6 @@ class _InfoScreenState extends State<InfoScreen> {
   final MultiSelectController controller = MultiSelectController();
   final formKey = GlobalKey<FormState>();
   late MainProvider provider;
-  late AppUser appUser;
 
   @override
   Widget build(BuildContext context) {
@@ -482,7 +481,7 @@ class _InfoScreenState extends State<InfoScreen> {
       provider.calculateMacronutrients(provider.bmr as double);
       print(provider.safety);
       // ignore: use_build_context_synchronously
-      appUser = AppUser(
+      AppUser newUser = AppUser(
           id: provider.currentUserId,
           email: provider.currentUserEmail,
           firstName: provider.firstName,
@@ -491,7 +490,8 @@ class _InfoScreenState extends State<InfoScreen> {
           gender: provider.gender,
           height: provider.height,
           weight: provider.weight);
-      await registerUserInFireStore(appUser);
+      await registerUserInFireStore(newUser);
+      AppUser.currentUser = newUser;
       Navigator.of(context).pushNamedAndRemoveUntil(HomeScreen.routeName, (route) => false);
     }
   }

@@ -193,6 +193,7 @@ class HistoryScreen extends StatelessWidget {
               child: ElevatedButton(
                 onPressed: () {
                   provider.deleteFromHistoryList(args);
+                  provider.deleteFromFireStore(args);
                   Navigator.pop(context);
                 },
                 style: ElevatedButton.styleFrom(

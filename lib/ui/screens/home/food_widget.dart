@@ -30,6 +30,7 @@ class FoodWidget extends StatelessWidget {
             SlidableAction(
               onPressed: (_) {
                 provider.deleteFromHistoryList(history);
+                provider.deleteFromFireStore(history);
               },
               icon: Icons.delete,
               label: "Delete",

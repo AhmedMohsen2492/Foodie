@@ -1,11 +1,16 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:foodie/data/api/api_manager.dart';
 import 'package:foodie/data/dataModel/DetailsResponse.dart';
+import 'package:foodie/data/dataModel/app_user.dart';
 import 'package:foodie/data/dataModel/food_history.dart';
 import 'package:foodie/data/providers/main_provider.dart';
+import 'package:foodie/ui/screens/home/home_screen.dart';
 import 'package:foodie/ui/utils/app_assets.dart';
 import 'package:foodie/ui/utils/app_colors.dart';
+import 'package:foodie/ui/utils/dilalog_utils.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
@@ -100,7 +105,7 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
                     protein = snapshot.data!.totalProtein;
                     return buildDetailsWidget(snapshot.data!);
                   } else {
-                    return const CircularProgressIndicator();
+                    return Center(child: const CircularProgressIndicator());
                   }
                 }),
             const Spacer(),
@@ -254,13 +259,56 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
     );
   }
 
-  saveButton() {
-    FoodHistory history = FoodHistory(provider.classNames[0],
-        provider.detectedImage!, healthy!, calories!, protein!, fats!, carbs!);
+  saveButton() async{
+    showLoading(context);
+    final ref = FirebaseStorage.instance.ref().child(provider.detectedImage!.path);
+    var uploadTask = ref.putFile(provider.detectedImage!);
 
+    final snapshot = await uploadTask.whenComplete((){});
+
+    final urlDownload = await snapshot.ref.getDownloadURL();
+    print('link: $urlDownload');
+    print("saveButton 1  =  ${provider.detectedImage!.path}");
+    FoodHistory history = FoodHistory(
+        provider.classNames[0],
+        provider.detectedImage!,
+        healthy!,
+        calories!,
+        protein!,
+        fats!,
+        carbs!);
+    print("saveButton 2  =  ${history.image!.path}");
+
+    history.imgUrl = urlDownload;
+
+    await addFoodToFireStore(history);
     provider.addToHistoryList(history);
     provider.deleteImages();
-    provider.classNames = [] ;
+    provider.classNames.clear() ;
+    provider.detectedImage = null ;
+    hideLoading(context);
+    Navigator.of(context).pushNamedAndRemoveUntil(HomeScreen.routeName, (route) => false);
+  }
+
+  Future<void> addFoodToFireStore(FoodHistory foodHistory) async {
+    CollectionReference foodCollectionRef =
+    AppUser.collection().doc(AppUser.currentUser!.id)
+        .collection(FoodHistory.collectionName);
+
+    DocumentReference documentReference = foodCollectionRef.doc();
+    foodHistory.id = documentReference.id ;
+    final map = <String, dynamic>{};
+    map["id"]=  foodHistory.id;
+    map["imgUrl"] = foodHistory.imgUrl;
+    map['name'] = foodHistory.name;
+    map['healthy'] = foodHistory.healthy;
+    map['calories'] = foodHistory.calories;
+    map['carbs'] = foodHistory.carbs;
+    map['protein'] = foodHistory.protein;
+    map['fats'] = foodHistory.fats;
+
+    await documentReference.set(map);
+
     Navigator.pop(context);
   }
 }

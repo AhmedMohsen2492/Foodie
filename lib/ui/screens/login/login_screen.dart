@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:foodie/data/api/api_manager.dart';
 import 'package:foodie/data/dataModel/app_user.dart';
 import 'package:foodie/data/providers/main_provider.dart';
 import 'package:foodie/ui/screens/home/home_screen.dart';
@@ -301,6 +302,26 @@ class _LoginScreenState extends State<LoginScreen> {
           password: password
       );
       AppUser currentUser = await getUserFromFireStore(userCredential.user!.uid);
+      AppUser.currentUser = currentUser ;
+
+      DocumentReference<AppUser> documentReference =
+      AppUser.collection().doc(AppUser.currentUser!.id);
+      DocumentSnapshot<AppUser> snapshot = await documentReference.get();
+       snapshot.data();
+      provider.age = snapshot.data()!.age;
+      provider.currentUserEmail = snapshot.data()!.email;
+      provider.firstName = snapshot.data()!.firstName;
+      provider.gender = snapshot.data()!.gender;
+      provider.height = snapshot.data()!.height;
+      provider.currentUserId = snapshot.data()!.id;
+      provider.lastName = snapshot.data()!.lastName;
+      provider.weight = snapshot.data()!.weight;
+
+      num? bmr = (await ApiManager.sendInformation(
+          provider.height, provider.weight, provider.age, provider.gender));
+      provider.bmr = bmr!;
+
+      provider.calculateMacronutrients(provider.bmr as double);
 
       hideLoading(context);
       Navigator.of(context).pushNamedAndRemoveUntil(HomeScreen.routeName, (route) => false);

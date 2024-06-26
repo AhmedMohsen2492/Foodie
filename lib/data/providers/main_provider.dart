@@ -1,8 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/widgets.dart';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:foodie/data/api/api_manager.dart';
+import 'package:foodie/data/dataModel/app_user.dart';
+import 'package:foodie/ui/utils/dilalog_utils.dart';
+import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 import '../dataModel/food_history.dart';
 
 class MainProvider extends ChangeNotifier {
@@ -24,8 +29,6 @@ class MainProvider extends ChangeNotifier {
   List classNames = [];
   Map details = {};
   List<FoodHistory> history = [];
-
-  //todo edit values
   Map<String, List<double>> safety = {};
 
   bool historyHealthy = true;
@@ -33,6 +36,53 @@ class MainProvider extends ChangeNotifier {
   double historyTotalCarbs = 0;
   double historyTotalFats = 0;
   double historyTotalProtein = 0;
+  static int i=-1;
+  bool loading = true ;
+
+  void deleteFromFireStore(FoodHistory history){
+    CollectionReference foodCollectionRef = AppUser.collection().doc(AppUser.currentUser!.id)
+        .collection(FoodHistory.collectionName);
+    foodCollectionRef.doc(history.id).delete();
+    notifyListeners();
+  }
+
+  Future<File> urlToFile(String imageUrl) async {
+    final response = await get(Uri.parse(imageUrl));
+    final documentDirectory = await getApplicationDocumentsDirectory();
+    final file = File('${documentDirectory.path}/filename${i++}.png');
+
+    file.writeAsBytesSync(response.bodyBytes);
+    return file;
+  }
+
+  refreshHistoryList(BuildContext context) async {
+    loading = true ;
+    CollectionReference<FoodHistory> historyCollection =
+    AppUser.collection().doc(AppUser.currentUser!.id)
+        .collection(FoodHistory.collectionName)
+    .withConverter<FoodHistory>(
+        fromFirestore: (snapshot, _) {
+          FoodHistory food = FoodHistory.withImgUrl(snapshot.data()!);
+          return food;
+        },
+        toFirestore: (value, _) {
+          return value.toJson();
+        });
+
+    QuerySnapshot<FoodHistory> foodSnapshot = await historyCollection.get();
+
+    List<QueryDocumentSnapshot<FoodHistory>> docs = foodSnapshot.docs;
+    history = docs.map((docSnapshot){
+      return docSnapshot.data();
+    }).toList();
+
+    for(int i=0 ; i<history.length ; i++)
+      {
+        history[i].image = await urlToFile(history[i].imgUrl!);
+      }
+    loading = false ;
+    notifyListeners();
+  }
 
   void calculateMacronutrients(double bmr) {
     Map<String, double> caloriesPerGram = {
@@ -72,7 +122,6 @@ class MainProvider extends ChangeNotifier {
   void galleryPicker(BuildContext context) async {
     var image = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (image == null) return null;
-
     pickedImage = File(image.path);
     Navigator.of(context).pop();
     notifyListeners();
@@ -83,6 +132,7 @@ class MainProvider extends ChangeNotifier {
     historyTotalCarbs += foodHistory.carbs;
     historyTotalFats += foodHistory.fats;
     historyTotalProtein += foodHistory.protein;
+    print("addToHistoryList =  ${foodHistory.image.path}");
     history.add(foodHistory);
 
     historyHealthy = (historyTotalCalories < bmr &&
