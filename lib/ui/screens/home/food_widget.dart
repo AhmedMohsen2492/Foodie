@@ -1,5 +1,4 @@
 // ignore_for_file: must_be_immutable
-
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:foodie/data/dataModel/food_history.dart';
@@ -29,8 +28,7 @@ class FoodWidget extends StatelessWidget {
           children: [
             SlidableAction(
               onPressed: (_) {
-                provider.deleteFromHistoryList(history);
-                provider.deleteFromFireStore(history);
+                deleteButton();
               },
               icon: Icons.delete,
               label: "Delete",
@@ -104,5 +102,11 @@ class FoodWidget extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void deleteButton() {
+    provider.deleteFromFireStore(history);
+    provider.deleteImageFromStorage(history);
+    provider.deleteFromHistoryList(history);
   }
 }

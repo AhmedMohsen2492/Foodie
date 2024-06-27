@@ -25,11 +25,8 @@ class FoodDetailsScreen extends StatefulWidget {
 
 class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
   late File? scanImage;
-
   late MainProvider provider;
-
   bool? healthy;
-
   double? calories;
   double? carbs;
   double? fats;
@@ -105,7 +102,7 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
                     protein = snapshot.data!.totalProtein;
                     return buildDetailsWidget(snapshot.data!);
                   } else {
-                    return Center(child: const CircularProgressIndicator());
+                    return const Center(child: CircularProgressIndicator());
                   }
                 }),
             const Spacer(),
@@ -259,46 +256,32 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
     );
   }
 
-  saveButton() async{
+  saveButton() async {
     showLoading(context);
     final ref = FirebaseStorage.instance.ref().child(provider.detectedImage!.path);
     var uploadTask = ref.putFile(provider.detectedImage!);
-
-    final snapshot = await uploadTask.whenComplete((){});
-
+    final snapshot = await uploadTask.whenComplete(() {});
     final urlDownload = await snapshot.ref.getDownloadURL();
-    print('link: $urlDownload');
-    print("saveButton 1  =  ${provider.detectedImage!.path}");
-    FoodHistory history = FoodHistory(
-        provider.classNames[0],
-        provider.detectedImage!,
-        healthy!,
-        calories!,
-        protein!,
-        fats!,
-        carbs!);
-    print("saveButton 2  =  ${history.image!.path}");
-
+    FoodHistory history = FoodHistory(provider.classNames[0],
+        provider.detectedImage!, healthy!, calories!, protein!, fats!, carbs!);
     history.imgUrl = urlDownload;
-
     await addFoodToFireStore(history);
     provider.addToHistoryList(history);
     provider.deleteImages();
-    provider.classNames.clear() ;
-    provider.detectedImage = null ;
+    provider.classNames.clear();
+    provider.detectedImage = null;
     hideLoading(context);
-    Navigator.of(context).pushNamedAndRemoveUntil(HomeScreen.routeName, (route) => false);
+    Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
   }
 
   Future<void> addFoodToFireStore(FoodHistory foodHistory) async {
-    CollectionReference foodCollectionRef =
-    AppUser.collection().doc(AppUser.currentUser!.id)
+    CollectionReference foodCollectionRef = AppUser.collection()
+        .doc(AppUser.currentUser!.id)
         .collection(FoodHistory.collectionName);
-
     DocumentReference documentReference = foodCollectionRef.doc();
-    foodHistory.id = documentReference.id ;
+    foodHistory.id = documentReference.id;
     final map = <String, dynamic>{};
-    map["id"]=  foodHistory.id;
+    map["id"] = foodHistory.id;
     map["imgUrl"] = foodHistory.imgUrl;
     map['name'] = foodHistory.name;
     map['healthy'] = foodHistory.healthy;
@@ -306,9 +289,7 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
     map['carbs'] = foodHistory.carbs;
     map['protein'] = foodHistory.protein;
     map['fats'] = foodHistory.fats;
-
     await documentReference.set(map);
-
     Navigator.pop(context);
   }
 }

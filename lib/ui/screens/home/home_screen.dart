@@ -1,7 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:foodie/data/dataModel/app_user.dart';
-import 'package:foodie/data/dataModel/food_history.dart';
 import 'package:foodie/data/providers/main_provider.dart';
 import 'package:foodie/ui/screens/chatBot/chat_bot_screen.dart';
 import 'package:foodie/ui/screens/foodIngrediets/food_ingredients.dart';
@@ -36,7 +34,6 @@ class _HomeScreenState extends State<HomeScreen> {
       provider.refreshHistoryList(context);
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -82,13 +79,13 @@ class _HomeScreenState extends State<HomeScreen> {
             onSelected: (value) {
               setState(() {
                 selectedItem = value;
-                if (selectedItem == MenuItem.editProfile) {
+                if (selectedItem == MenuItem.editProfile)
+                {
                   Navigator.pushNamed(context, InfoScreen.routeName);
-                } else if (selectedItem == MenuItem.logout) {
-                  AppUser.currentUser = null ;
-                  provider.history.clear();
-                  Navigator.pushReplacementNamed(
-                      context, StartScreen.routeName);
+                }
+                else if (selectedItem == MenuItem.logout)
+                {
+                  logout();
                 }
               });
             },
@@ -211,13 +208,16 @@ class _HomeScreenState extends State<HomeScreen> {
                     ? 65
                     : MediaQuery.of(context).size.height * 0.29,
                 child: provider.history.isEmpty
-                    ? provider.loading ? Center(child: CircularProgressIndicator()) : noData()
-                    : provider.loading ? Center(child: CircularProgressIndicator()) : ListView.builder(
-                      itemCount: provider.history.length,
-                      itemBuilder: (context, index) {
-                        return FoodWidget(provider.history[index]);
-                      }
-                    ),
+                    ? provider.loading
+                        ? const Center(child: CircularProgressIndicator())
+                        : noData()
+                    : provider.loading
+                        ? const Center(child: CircularProgressIndicator())
+                        : ListView.builder(
+                            itemCount: provider.history.length,
+                            itemBuilder: (context, index) {
+                              return FoodWidget(provider.history[index]);
+                            }),
               ),
               const SizedBox(
                 height: 10,
@@ -225,7 +225,9 @@ class _HomeScreenState extends State<HomeScreen> {
               Container(
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 decoration: BoxDecoration(
-                  color: provider.historyHealthy ? AppColors.prime : AppColors.darkRed,
+                  color: provider.historyHealthy
+                      ? AppColors.prime
+                      : AppColors.darkRed,
                   borderRadius: const BorderRadius.all(Radius.circular(20)),
                 ),
                 child: Center(
@@ -442,12 +444,23 @@ class _HomeScreenState extends State<HomeScreen> {
       width: double.infinity,
       child: Center(
         child: Text(
-          "No data yet!!",
+          "No data found !!",
           style: TextStyle(
               color: Colors.black, fontSize: 30, fontWeight: FontWeight.bold),
         ),
       ),
     );
+  }
+
+  void logout() {
+    AppUser.currentUser = null;
+    provider.history.clear();
+    provider.historyTotalProtein = 0 ;
+    provider.historyTotalFats = 0 ;
+    provider.historyTotalCarbs = 0 ;
+    provider.historyTotalCalories = 0 ;
+    provider.historyHealthy = true ;
+    Navigator.pushReplacementNamed(context, StartScreen.routeName);
   }
 }
 

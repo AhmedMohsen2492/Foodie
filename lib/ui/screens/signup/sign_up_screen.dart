@@ -130,18 +130,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               ),
                               TextFormField(
                                 onChanged: (value) {
-                                  email=value;
-                                },
-                                validator: (emailValue) {
-                                  if (emailValue == null ||
-                                      emailValue.isEmpty) {
-                                    return 'Please enter email';
-                                  }
-                                  if (!emailValue.contains('@') ||
-                                      !emailValue.contains('.')) {
-                                    return 'wrong input';
-                                  }
-                                  return null;
+                                  email = value;
                                 },
                                 keyboardType: TextInputType.emailAddress,
                                 decoration: InputDecoration(
@@ -170,16 +159,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               ),
                               TextFormField(
                                 onChanged: (value) => password = value,
-                                validator: (passwordValue) {
-                                  if (passwordValue == null ||
-                                      passwordValue.isEmpty) {
-                                    return 'Please enter password';
-                                  }
-                                  if (passwordValue.length < 6) {
-                                    return 'weak password';
-                                  }
-                                  return null;
-                                },
                                 obscureText: isVisible,
                                 decoration: InputDecoration(
                                   suffixIcon: isVisible
@@ -241,8 +220,33 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   }
                                   return null;
                                 },
-                                obscureText: true,
+                                obscureText: isVisible,
                                 decoration: InputDecoration(
+                                  suffixIcon: isVisible
+                                      ? Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 12),
+                                          child: IconButton(
+                                              onPressed: () {
+                                                setState(() {
+                                                  isVisible = !isVisible;
+                                                });
+                                              },
+                                              icon:
+                                                  const Icon(Icons.visibility)),
+                                        )
+                                      : Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 12),
+                                          child: IconButton(
+                                              onPressed: () {
+                                                setState(() {
+                                                  isVisible = !isVisible;
+                                                });
+                                              },
+                                              icon: const Icon(
+                                                  Icons.visibility_off)),
+                                        ),
                                   filled: true,
                                   fillColor: AppColors.simpleGreen,
                                   hintText: "Confirm password",
@@ -359,24 +363,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  void signUp() async{
-   try{
-     showLoading(context);
-     UserCredential userCredential =
-     await FirebaseAuth.instance.createUserWithEmailAndPassword(
-         email: email,
-         password: password
-     );
-     provider.currentUserId = userCredential.user!.uid;
-     provider.currentUserEmail = userCredential.user!.email!;
-     hideLoading(context);
-     Navigator.of(context).pushNamedAndRemoveUntil(InfoScreen.routeName, (route) => false);
-   }on FirebaseAuthException catch(error)
-    {
-      hideLoading(context);
-      showErrorDialog(context, error.message ?? "Something Went Wrong. please try again!");
+  void signUp() async {
+    if (formKey.currentState!.validate() && isChecked == true) {
+      try {
+        showLoading(context);
+        UserCredential userCredential = await FirebaseAuth.instance
+            .createUserWithEmailAndPassword(email: email, password: password);
+        provider.currentUserId = userCredential.user!.uid;
+        provider.currentUserEmail = userCredential.user!.email!;
+        hideLoading(context);
+        Navigator.of(context)
+            .pushNamedAndRemoveUntil(InfoScreen.routeName, (route) => false);
+      } on FirebaseAuthException catch (error) {
+        hideLoading(context);
+        showErrorDialog(context,
+            error.message ?? "Something Went Wrong. please try again!");
+      }
     }
-    // if (formKey.currentState!.validate() &&
-    //     isChecked == true) {}
   }
 }

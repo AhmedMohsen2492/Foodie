@@ -5,7 +5,6 @@ import 'package:foodie/data/api/api_manager.dart';
 import 'package:foodie/data/dataModel/app_user.dart';
 import 'package:foodie/data/providers/main_provider.dart';
 import 'package:foodie/ui/screens/home/home_screen.dart';
-import 'package:foodie/ui/screens/info/info_screen.dart';
 import 'package:foodie/ui/utils/app_assets.dart';
 import 'package:foodie/ui/utils/app_colors.dart';
 import 'package:foodie/ui/utils/dilalog_utils.dart';
@@ -92,7 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                "Hello...",
+                                "Hello..",
                                 style: GoogleFonts.abhayaLibre(
                                     color: AppColors.white,
                                     fontSize: 35,
@@ -130,17 +129,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                 onChanged: (value) {
                                   email = value;
                                 },
-                                validator: (emailValue) {
-                                  if (emailValue == null ||
-                                      emailValue.isEmpty) {
-                                    return 'Please enter email';
-                                  }
-                                  if (!emailValue.contains('@') ||
-                                      !emailValue.contains('.')) {
-                                    return 'wrong input';
-                                  }
-                                  return null;
-                                },
                                 keyboardType: TextInputType.emailAddress,
                                 decoration: InputDecoration(
                                   filled: true,
@@ -166,13 +154,6 @@ class _LoginScreenState extends State<LoginScreen> {
                               TextFormField(
                                 onChanged: (value) {
                                   password = value;
-                                },
-                                validator: (passwordValue) {
-                                  if (passwordValue == null ||
-                                      passwordValue.isEmpty) {
-                                    return 'Please enter password';
-                                  }
-                                  return null;
                                 },
                                 obscureText: isVisible,
                                 decoration: InputDecoration(
@@ -223,7 +204,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                               ElevatedButton(
                                 onPressed: () {
-                                 login();
+                                  login();
                                 },
                                 style: ElevatedButton.styleFrom(
                                     padding: const EdgeInsets.symmetric(
@@ -294,20 +275,18 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void login() async {
-    try{
+    try {
       showLoading(context);
-      UserCredential userCredential =
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: email,
-          password: password
-      );
-      AppUser currentUser = await getUserFromFireStore(userCredential.user!.uid);
-      AppUser.currentUser = currentUser ;
+      UserCredential userCredential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password);
+      AppUser currentUser =
+          await getUserFromFireStore(userCredential.user!.uid);
+      AppUser.currentUser = currentUser;
 
       DocumentReference<AppUser> documentReference =
-      AppUser.collection().doc(AppUser.currentUser!.id);
+          AppUser.collection().doc(AppUser.currentUser!.id);
       DocumentSnapshot<AppUser> snapshot = await documentReference.get();
-       snapshot.data();
+      snapshot.data();
       provider.age = snapshot.data()!.age;
       provider.currentUserEmail = snapshot.data()!.email;
       provider.firstName = snapshot.data()!.firstName;
@@ -324,20 +303,21 @@ class _LoginScreenState extends State<LoginScreen> {
       provider.calculateMacronutrients(provider.bmr as double);
 
       hideLoading(context);
-      Navigator.of(context).pushNamedAndRemoveUntil(HomeScreen.routeName, (route) => false);
-    }on FirebaseAuthException catch(error)
-    {
+
+      Navigator.of(context)
+          .pushNamedAndRemoveUntil(HomeScreen.routeName, (route) => false);
+    } on FirebaseAuthException catch (error) {
       hideLoading(context);
-      showErrorDialog(context, error.message ?? "Something Went Wrong. please try again!");
+      showErrorDialog(
+          context, error.message ?? "Something Went Wrong. please try again!");
     }
-    // if (formKey.currentState!.validate()) {
-    //
-    // }
+
   }
 
-  Future<AppUser> getUserFromFireStore(String id) async{
+  Future<AppUser> getUserFromFireStore(String id) async {
     CollectionReference<AppUser> userCollection = AppUser.collection();
-    DocumentSnapshot<AppUser> documentSnapshot = await userCollection.doc(id).get();
+    DocumentSnapshot<AppUser> documentSnapshot =
+        await userCollection.doc(id).get();
     return documentSnapshot.data()!;
   }
 }

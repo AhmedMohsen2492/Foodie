@@ -192,9 +192,7 @@ class HistoryScreen extends StatelessWidget {
             Center(
               child: ElevatedButton(
                 onPressed: () {
-                  provider.deleteFromHistoryList(args);
-                  provider.deleteFromFireStore(args);
-                  Navigator.pop(context);
+                  deleteButton(args,context);
                 },
                 style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(
@@ -219,5 +217,12 @@ class HistoryScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void deleteButton(FoodHistory args,BuildContext context) {
+    provider.deleteFromFireStore(args);
+    provider.deleteImageFromStorage(args);
+    provider.deleteFromHistoryList(args);
+    Navigator.pop(context);
   }
 }

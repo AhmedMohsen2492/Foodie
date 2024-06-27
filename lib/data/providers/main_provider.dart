@@ -1,18 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/widgets.dart';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:foodie/data/api/api_manager.dart';
 import 'package:foodie/data/dataModel/app_user.dart';
-import 'package:foodie/ui/utils/dilalog_utils.dart';
 import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import '../dataModel/food_history.dart';
 
 class MainProvider extends ChangeNotifier {
-  String currentUserId= "";
-  String currentUserEmail= "";
+  String currentUserId = "";
+  String currentUserEmail = "";
 
   File? pickedImage;
   File? detectedImage;
@@ -36,11 +36,18 @@ class MainProvider extends ChangeNotifier {
   double historyTotalCarbs = 0;
   double historyTotalFats = 0;
   double historyTotalProtein = 0;
-  static int i=-1;
-  bool loading = true ;
+  static int i = -1;
+  bool loading = true;
 
-  void deleteFromFireStore(FoodHistory history){
-    CollectionReference foodCollectionRef = AppUser.collection().doc(AppUser.currentUser!.id)
+  void deleteImageFromStorage(FoodHistory history) async {
+    final storageRef =
+        FirebaseStorage.instance.ref().child(detectedImage!.path);
+    await storageRef.delete();
+  }
+
+  void deleteFromFireStore(FoodHistory history) {
+    CollectionReference foodCollectionRef = AppUser.collection()
+        .doc(AppUser.currentUser!.id)
         .collection(FoodHistory.collectionName);
     foodCollectionRef.doc(history.id).delete();
     notifyListeners();
@@ -49,38 +56,54 @@ class MainProvider extends ChangeNotifier {
   Future<File> urlToFile(String imageUrl) async {
     final response = await get(Uri.parse(imageUrl));
     final documentDirectory = await getApplicationDocumentsDirectory();
-    final file = File('${documentDirectory.path}/filename${i++}.png');
+    final file = File('${documentDirectory.path}/filename${AppUser.currentUser!.id},${i++}.png');
 
     file.writeAsBytesSync(response.bodyBytes);
     return file;
   }
 
   refreshHistoryList(BuildContext context) async {
-    loading = true ;
-    CollectionReference<FoodHistory> historyCollection =
-    AppUser.collection().doc(AppUser.currentUser!.id)
+    loading = true;
+    CollectionReference<FoodHistory> historyCollection = AppUser.collection()
+        .doc(AppUser.currentUser!.id)
         .collection(FoodHistory.collectionName)
-    .withConverter<FoodHistory>(
-        fromFirestore: (snapshot, _) {
-          FoodHistory food = FoodHistory.withImgUrl(snapshot.data()!);
-          return food;
-        },
-        toFirestore: (value, _) {
-          return value.toJson();
-        });
+        .withConverter<FoodHistory>(fromFirestore: (snapshot, _) {
+      FoodHistory food = FoodHistory.withImgUrl(snapshot.data()!);
+      return food;
+    }, toFirestore: (value, _) {
+      return value.toJson();
+    });
 
     QuerySnapshot<FoodHistory> foodSnapshot = await historyCollection.get();
 
     List<QueryDocumentSnapshot<FoodHistory>> docs = foodSnapshot.docs;
-    history = docs.map((docSnapshot){
+    history = docs.map((docSnapshot) {
       return docSnapshot.data();
     }).toList();
 
-    for(int i=0 ; i<history.length ; i++)
-      {
-        history[i].image = await urlToFile(history[i].imgUrl!);
-      }
-    loading = false ;
+    for (int i = 0; i < history.length; i++) {
+      history[i].image = await urlToFile(history[i].imgUrl!);
+    }
+    loading = false;
+    refreshTotal();
+    notifyListeners();
+  }
+
+  void refreshTotal() {
+    historyTotalCalories =0;
+    historyTotalCarbs = 0;
+    historyTotalProtein =0;
+    historyTotalFats = 0;
+    for (int i = 0; i < history.length; i++) {
+      historyTotalCalories += history[i].calories;
+      historyTotalCarbs += history[i].carbs;
+      historyTotalProtein += history[i].protein;
+      historyTotalFats += history[i].fats;
+    }
+    historyHealthy = (historyTotalCalories < bmr &&
+        historyTotalCarbs <= safety['Carbohydrates']![1] &&
+        historyTotalProtein <= safety['Protein']![1] &&
+        historyTotalFats <= safety['Fat']![1]);
     notifyListeners();
   }
 
@@ -127,18 +150,9 @@ class MainProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addToHistoryList(FoodHistory foodHistory) {
-    historyTotalCalories += foodHistory.calories;
-    historyTotalCarbs += foodHistory.carbs;
-    historyTotalFats += foodHistory.fats;
-    historyTotalProtein += foodHistory.protein;
-    print("addToHistoryList =  ${foodHistory.image.path}");
-    history.add(foodHistory);
 
-    historyHealthy = (historyTotalCalories < bmr &&
-        historyTotalCarbs <= safety['Carbohydrates']![1] &&
-        historyTotalProtein <= safety['Protein']![1] &&
-        historyTotalFats <= safety['Fat']![1]) ;
+  void addToHistoryList(FoodHistory foodHistory) {
+    history.add(foodHistory);
     notifyListeners();
   }
 
@@ -151,7 +165,7 @@ class MainProvider extends ChangeNotifier {
     historyHealthy = (historyTotalCalories < bmr &&
         historyTotalCarbs <= safety['Carbohydrates']![1] &&
         historyTotalProtein <= safety['Protein']![1] &&
-        historyTotalFats <= safety['Fat']![1]) ;
+        historyTotalFats <= safety['Fat']![1]);
     notifyListeners();
   }
 

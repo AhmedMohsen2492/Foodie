@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:foodie/data/api/api_manager.dart';
 import 'package:foodie/data/dataModel/app_user.dart';
 import 'package:foodie/ui/utils/app_colors.dart';
+import 'package:foodie/ui/utils/dilalog_utils.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:multi_dropdown/multiselect_dropdown.dart';
 import 'package:provider/provider.dart';
@@ -458,6 +459,7 @@ class _InfoScreenState extends State<InfoScreen> {
   }
 
   void doneButton() async {
+    showLoading(context);
     if (formKey.currentState!.validate()) {
       if (controller.selectedOptions.isEmpty) {
         provider.hypertension = false;
@@ -473,13 +475,10 @@ class _InfoScreenState extends State<InfoScreen> {
           provider.diabetes = false;
         }
       }
-
       num? bmr = (await ApiManager.sendInformation(
           provider.height, provider.weight, provider.age, provider.gender));
       provider.bmr = bmr!;
-
       provider.calculateMacronutrients(provider.bmr as double);
-      print(provider.safety);
       // ignore: use_build_context_synchronously
       AppUser newUser = AppUser(
           id: provider.currentUserId,
@@ -492,8 +491,15 @@ class _InfoScreenState extends State<InfoScreen> {
           weight: provider.weight);
       await registerUserInFireStore(newUser);
       AppUser.currentUser = newUser;
-      Navigator.of(context).pushNamedAndRemoveUntil(HomeScreen.routeName, (route) => false);
+      hideLoading(context);
+      Navigator.of(context)
+          .pushNamedAndRemoveUntil(HomeScreen.routeName, (route) => false);
     }
+  }
+
+  Future registerUserInFireStore(AppUser user) async {
+    CollectionReference userCollection = AppUser.collection();
+    await userCollection.doc(provider.currentUserId).set(user);
   }
 
   bool isNumeric(String? string) {
@@ -505,10 +511,5 @@ class _InfoScreenState extends State<InfoScreen> {
       return false;
     }
     return true;
-  }
-
-  Future registerUserInFireStore(AppUser user) async {
-    CollectionReference userCollection = AppUser.collection();
-    await userCollection.doc("${provider.currentUserId}").set(user);
   }
 }
