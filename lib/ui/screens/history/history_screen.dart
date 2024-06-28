@@ -221,7 +221,6 @@ class HistoryScreen extends StatelessWidget {
 
   void deleteButton(FoodHistory args,BuildContext context) {
     provider.deleteFromFireStore(args);
-    provider.deleteImageFromStorage(args);
     provider.deleteFromHistoryList(args);
     Navigator.pop(context);
   }

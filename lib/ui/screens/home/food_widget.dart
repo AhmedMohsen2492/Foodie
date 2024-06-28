@@ -106,7 +106,6 @@ class FoodWidget extends StatelessWidget {
 
   void deleteButton() {
     provider.deleteFromFireStore(history);
-    provider.deleteImageFromStorage(history);
     provider.deleteFromHistoryList(history);
   }
 }

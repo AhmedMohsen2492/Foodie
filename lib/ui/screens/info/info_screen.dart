@@ -491,6 +491,7 @@ class _InfoScreenState extends State<InfoScreen> {
           weight: provider.weight);
       await registerUserInFireStore(newUser);
       AppUser.currentUser = newUser;
+      provider.setInSharedPreferences(newUser);
       hideLoading(context);
       Navigator.of(context)
           .pushNamedAndRemoveUntil(HomeScreen.routeName, (route) => false);

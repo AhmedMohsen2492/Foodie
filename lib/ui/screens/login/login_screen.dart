@@ -302,8 +302,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
       provider.calculateMacronutrients(provider.bmr as double);
 
+      provider.setInSharedPreferences(currentUser);
+      print("AAAAAAAA == ${await provider.getFromSharedPreferences()}");
       hideLoading(context);
-
       Navigator.of(context)
           .pushNamedAndRemoveUntil(HomeScreen.routeName, (route) => false);
     } on FirebaseAuthException catch (error) {

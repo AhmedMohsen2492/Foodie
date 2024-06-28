@@ -1,5 +1,6 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/widgets.dart';
 import 'dart:io';
 import 'package:flutter/material.dart';
@@ -8,12 +9,12 @@ import 'package:foodie/data/dataModel/app_user.dart';
 import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../dataModel/food_history.dart';
 
 class MainProvider extends ChangeNotifier {
   String currentUserId = "";
   String currentUserEmail = "";
-
   File? pickedImage;
   File? detectedImage;
   bool hypertension = false;
@@ -30,20 +31,12 @@ class MainProvider extends ChangeNotifier {
   Map details = {};
   List<FoodHistory> history = [];
   Map<String, List<double>> safety = {};
-
   bool historyHealthy = true;
   double historyTotalCalories = 0;
   double historyTotalCarbs = 0;
   double historyTotalFats = 0;
   double historyTotalProtein = 0;
-  static int i = -1;
   bool loading = true;
-
-  void deleteImageFromStorage(FoodHistory history) async {
-    final storageRef =
-        FirebaseStorage.instance.ref().child(detectedImage!.path);
-    await storageRef.delete();
-  }
 
   void deleteFromFireStore(FoodHistory history) {
     CollectionReference foodCollectionRef = AppUser.collection()
@@ -53,11 +46,11 @@ class MainProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<File> urlToFile(String imageUrl) async {
+  Future<File> urlToFile(String imageUrl, int index) async {
     final response = await get(Uri.parse(imageUrl));
     final documentDirectory = await getApplicationDocumentsDirectory();
-    final file = File('${documentDirectory.path}/filename${AppUser.currentUser!.id},${i++}.png');
-
+    final file = File(
+        '${documentDirectory.path}/filename${AppUser.currentUser!.id},${history[index].id}.png');
     file.writeAsBytesSync(response.bodyBytes);
     return file;
   }
@@ -82,7 +75,7 @@ class MainProvider extends ChangeNotifier {
     }).toList();
 
     for (int i = 0; i < history.length; i++) {
-      history[i].image = await urlToFile(history[i].imgUrl!);
+      history[i].image = await urlToFile(history[i].imgUrl!, i);
     }
     loading = false;
     refreshTotal();
@@ -90,9 +83,9 @@ class MainProvider extends ChangeNotifier {
   }
 
   void refreshTotal() {
-    historyTotalCalories =0;
+    historyTotalCalories = 0;
     historyTotalCarbs = 0;
-    historyTotalProtein =0;
+    historyTotalProtein = 0;
     historyTotalFats = 0;
     for (int i = 0; i < history.length; i++) {
       historyTotalCalories += history[i].calories;
@@ -150,7 +143,6 @@ class MainProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-
   void addToHistoryList(FoodHistory foodHistory) {
     history.add(foodHistory);
     notifyListeners();
@@ -170,8 +162,18 @@ class MainProvider extends ChangeNotifier {
   }
 
   Future<void> addDetectedImage() async {
-    detectedImage = await ApiManager.sendImageResponseImage(pickedImage!.path);
-    print(detectedImage!.path);
+    int? counter = await getCounterFromSharedPreferences();
+    if (counter == null)
+      {
+        setCounterInSharedPreferences(0);
+        counter=0;
+      }
+    detectedImage = await ApiManager.sendImageResponseImage(pickedImage!.path, counter!);
+
+    int? c = await getCounterFromSharedPreferences();
+    if (c != null)
+      setCounterInSharedPreferences(++c);
+    print("C = ${c}");
     notifyListeners();
   }
 
@@ -179,5 +181,33 @@ class MainProvider extends ChangeNotifier {
     detectedImage = null;
     pickedImage = null;
     notifyListeners();
+  }
+
+  void setInSharedPreferences(AppUser appUser) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString("user", jsonEncode(appUser.toJson()));
+  }
+
+  void setCounterInSharedPreferences(int i) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setInt("counter", i);
+  }
+
+  Future<int?> getCounterFromSharedPreferences() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    int? i = await prefs.getInt("counter");
+    return i;
+  }
+
+  void deleteFromSharedPreferences() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove("user");
+  }
+
+  Future<AppUser?> getFromSharedPreferences() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? appUser = prefs.getString("user");
+    if (appUser == null) return null;
+    return AppUser.fromJson(jsonDecode(appUser));
   }
 }

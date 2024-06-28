@@ -1,16 +1,19 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:foodie/data/dataModel/ClassNames.dart';
 import 'package:foodie/data/dataModel/DetailsResponse.dart';
+import 'package:foodie/data/dataModel/app_user.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class ApiManager {
   static String baseUrl = "http://10.0.2.2:5000/food";
   static int c = 0;
 
-  static Future<File?> sendImageResponseImage(String imagePath) async {
+  static Future<File?> sendImageResponseImage(String imagePath,int count) async {
     var request = http.MultipartRequest(
       'POST',
       Uri.parse("http://10.0.2.2:5000/image"),
@@ -25,8 +28,7 @@ abstract class ApiManager {
     if (response.statusCode == 200) {
       // Get the directory for the app
       final directory = await getApplicationDocumentsDirectory();
-      final filePath = '${directory.path}/response_image$c.jpg';
-      c++;
+      final filePath = '${directory.path}/response_image${AppUser.currentUser!.id},${count}.jpg';
       // Save the response image
       final File file = File(filePath);
       await file.writeAsBytes(await response.stream.toBytes());

@@ -460,6 +460,7 @@ class _HomeScreenState extends State<HomeScreen> {
     provider.historyTotalCarbs = 0 ;
     provider.historyTotalCalories = 0 ;
     provider.historyHealthy = true ;
+    provider.deleteFromSharedPreferences();
     Navigator.pushReplacementNamed(context, StartScreen.routeName);
   }
 }
