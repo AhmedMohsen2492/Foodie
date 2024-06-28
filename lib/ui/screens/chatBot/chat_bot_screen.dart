@@ -17,7 +17,7 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
   TextEditingController controller = TextEditingController();
   ScrollController scrollController = ScrollController();
   String message = "";
-  bool  loading = false , send = true;
+  bool loading = false, send = true;
   List chat = [];
 
   @override
@@ -64,7 +64,7 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
               Expanded(
                 child: chat.isNotEmpty
                     ? ListView.builder(
-                  controller: scrollController,
+                        controller: scrollController,
                         itemCount: chat.length,
                         itemBuilder: (context, index) => chatBotWidget(index))
                     : const Center(
@@ -86,7 +86,7 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
                 style: const TextStyle(color: AppColors.white, fontSize: 18),
                 decoration: InputDecoration(
                   suffixIcon: IconButton(
-                    onPressed: notEmpty(message)&&send ? sendMessage : () {},
+                    onPressed: notEmpty(message) && send ? sendMessage : () {},
                     icon: Container(
                         padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
@@ -145,32 +145,26 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
     chat.add("");
     setState(() {
       loading = true;
-      send = false ;
+      send = false;
       Future.delayed(const Duration(milliseconds: 50), () {
-        scrollController.animateTo(
-            scrollController.position.maxScrollExtent,
-            duration: const Duration(milliseconds: 800),
-            curve: Curves.easeOut
-        );
+        scrollController.animateTo(scrollController.position.maxScrollExtent,
+            duration: const Duration(milliseconds: 800), curve: Curves.easeOut);
       });
     });
     FocusScope.of(context).unfocus();
     GenerateContentResponse response =
-    await ApiManager.chatBotResponse(message) ;
+        await ApiManager.chatBotResponse(message);
     setState(() {
       loading = false;
     });
-    chat.removeAt(chat.length-1);
+    chat.removeAt(chat.length - 1);
     chat.add(response.text?.trim());
-    message="";
+    message = "";
     setState(() {
-      send = true ;
+      send = true;
       Future.delayed(const Duration(milliseconds: 300), () {
-        scrollController.animateTo(
-            scrollController.position.maxScrollExtent,
-            duration: const Duration(milliseconds: 800),
-            curve: Curves.easeOut
-        );
+        scrollController.animateTo(scrollController.position.maxScrollExtent,
+            duration: const Duration(milliseconds: 800), curve: Curves.easeOut);
       });
     });
   }
@@ -190,19 +184,26 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
             borderRadius: BorderRadius.only(
               topLeft: const Radius.circular(35),
               topRight: const Radius.circular(35),
-              bottomLeft: index % 2 == 0 ?  const Radius.circular(35) :const Radius.circular(0),
-              bottomRight:index % 2 == 0 ?  const Radius.circular(0) :const Radius.circular(35),
+              bottomLeft: index % 2 == 0
+                  ? const Radius.circular(35)
+                  : const Radius.circular(0),
+              bottomRight: index % 2 == 0
+                  ? const Radius.circular(0)
+                  : const Radius.circular(35),
             )),
-        child: loading && index==chat.length-1 ? const Center(child: CircularProgressIndicator(
-          color: Colors.white,
-        )) : Text(
-          "${chat[index]}" ,
-          textAlign: index % 2 == 0 ? TextAlign.right : TextAlign.left,
-          style: const TextStyle(
-            color: AppColors.white,
-            fontSize: 20,
-          ),
-        ),
+        child: loading && index == chat.length - 1
+            ? const Center(
+                child: CircularProgressIndicator(
+                color: Colors.white,
+              ))
+            : Text(
+                "${chat[index]}",
+                textAlign: index % 2 == 0 ? TextAlign.right : TextAlign.left,
+                style: const TextStyle(
+                  color: AppColors.white,
+                  fontSize: 20,
+                ),
+              ),
       ),
     );
   }

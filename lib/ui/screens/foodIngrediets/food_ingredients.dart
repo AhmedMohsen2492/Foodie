@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:foodie/data/dataModel/Nutrition.dart';
-import 'package:foodie/data/dataModel/TotalNutrition.dart';
+import 'package:foodie/data/dataModel/nutrition.dart';
+import 'package:foodie/data/dataModel/total_nutrition.dart';
 import 'package:foodie/ui/utils/app_colors.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;

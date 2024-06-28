@@ -2,7 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AppUser {
   static const collectionName = "users";
-  static AppUser? currentUser ;
+  static AppUser? currentUser;
+
   late String id;
   late String email;
   late String firstName;
@@ -22,7 +23,7 @@ class AppUser {
       required this.height,
       required this.weight});
 
-  AppUser.fromJson(Map json){
+  AppUser.fromJson(Map json) {
     id = json["id"];
     email = json["email"];
     firstName = json["firstName"];
@@ -32,7 +33,6 @@ class AppUser {
     height = json["height"];
     weight = json["weight"];
   }
-
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -47,9 +47,8 @@ class AppUser {
     return map;
   }
 
-  static CollectionReference<AppUser> collection(){
-    return  FirebaseFirestore
-        .instance
+  static CollectionReference<AppUser> collection() {
+    return FirebaseFirestore.instance
         .collection(AppUser.collectionName)
         .withConverter<AppUser>(
       fromFirestore: (snapshot, _) {
@@ -60,5 +59,4 @@ class AppUser {
       },
     );
   }
-
 }

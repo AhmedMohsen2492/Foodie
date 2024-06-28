@@ -163,17 +163,15 @@ class MainProvider extends ChangeNotifier {
 
   Future<void> addDetectedImage() async {
     int? counter = await getCounterFromSharedPreferences();
-    if (counter == null)
-      {
-        setCounterInSharedPreferences(0);
-        counter=0;
-      }
-    detectedImage = await ApiManager.sendImageResponseImage(pickedImage!.path, counter!);
+    if (counter == null) {
+      setCounterInSharedPreferences(0);
+      counter = 0;
+    }
+    detectedImage =
+        await ApiManager.sendImageResponseImage(pickedImage!.path, counter);
 
     int? c = await getCounterFromSharedPreferences();
-    if (c != null)
-      setCounterInSharedPreferences(++c);
-    print("C = ${c}");
+    if (c != null) setCounterInSharedPreferences(++c);
     notifyListeners();
   }
 
@@ -195,7 +193,7 @@ class MainProvider extends ChangeNotifier {
 
   Future<int?> getCounterFromSharedPreferences() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    int? i = await prefs.getInt("counter");
+    int? i = prefs.getInt("counter");
     return i;
   }
 

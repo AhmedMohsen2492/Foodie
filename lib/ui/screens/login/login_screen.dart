@@ -282,7 +282,6 @@ class _LoginScreenState extends State<LoginScreen> {
       AppUser currentUser =
           await getUserFromFireStore(userCredential.user!.uid);
       AppUser.currentUser = currentUser;
-
       DocumentReference<AppUser> documentReference =
           AppUser.collection().doc(AppUser.currentUser!.id);
       DocumentSnapshot<AppUser> snapshot = await documentReference.get();
@@ -299,11 +298,8 @@ class _LoginScreenState extends State<LoginScreen> {
       num? bmr = (await ApiManager.sendInformation(
           provider.height, provider.weight, provider.age, provider.gender));
       provider.bmr = bmr!;
-
       provider.calculateMacronutrients(provider.bmr as double);
-
       provider.setInSharedPreferences(currentUser);
-      print("AAAAAAAA == ${await provider.getFromSharedPreferences()}");
       hideLoading(context);
       Navigator.of(context)
           .pushNamedAndRemoveUntil(HomeScreen.routeName, (route) => false);
@@ -312,7 +308,6 @@ class _LoginScreenState extends State<LoginScreen> {
       showErrorDialog(
           context, error.message ?? "Something Went Wrong. please try again!");
     }
-
   }
 
   Future<AppUser> getUserFromFireStore(String id) async {

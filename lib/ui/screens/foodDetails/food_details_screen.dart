@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:foodie/data/api/api_manager.dart';
-import 'package:foodie/data/dataModel/DetailsResponse.dart';
+import 'package:foodie/data/dataModel/details_response.dart';
 import 'package:foodie/data/dataModel/app_user.dart';
 import 'package:foodie/data/dataModel/food_history.dart';
 import 'package:foodie/data/providers/main_provider.dart';
@@ -258,7 +258,8 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
 
   saveButton() async {
     showLoading(context);
-    final ref = FirebaseStorage.instance.ref().child(provider.detectedImage!.path);
+    final ref =
+        FirebaseStorage.instance.ref().child(provider.detectedImage!.path);
     var uploadTask = ref.putFile(provider.detectedImage!);
     final snapshot = await uploadTask.whenComplete(() {});
     final urlDownload = await snapshot.ref.getDownloadURL();

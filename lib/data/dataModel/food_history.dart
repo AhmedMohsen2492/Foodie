@@ -1,28 +1,24 @@
 import 'dart:io';
-import 'package:foodie/ui/utils/app_assets.dart';
 
 class FoodHistory {
   static const String collectionName = "foods";
-  String? id ;
+  String? id;
+
   late String name;
-  late File image ;
-  String? imgUrl ;
+  late File image;
+
+  String? imgUrl;
+
   late bool healthy;
   late double calories;
   late double carbs;
   late double protein;
   late double fats;
 
-  FoodHistory(
-      this.name,
-      this.image,
-      this.healthy,
-      this.calories,
-      this.protein,
-      this.fats,
-      this.carbs);
+  FoodHistory(this.name, this.image, this.healthy, this.calories, this.protein,
+      this.fats, this.carbs);
 
-  FoodHistory.fromJson(Map json){
+  FoodHistory.fromJson(Map json) {
     name = json["name"];
     image = json["image"];
     healthy = json["healthy"];
@@ -32,7 +28,7 @@ class FoodHistory {
     fats = json["fats"];
   }
 
-  FoodHistory.withImgUrl(Map json){
+  FoodHistory.withImgUrl(Map json) {
     id = json["id"];
     name = json["name"];
     imgUrl = json["imgUrl"];

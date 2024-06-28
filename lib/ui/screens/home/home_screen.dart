@@ -79,12 +79,9 @@ class _HomeScreenState extends State<HomeScreen> {
             onSelected: (value) {
               setState(() {
                 selectedItem = value;
-                if (selectedItem == MenuItem.editProfile)
-                {
+                if (selectedItem == MenuItem.editProfile) {
                   Navigator.pushNamed(context, InfoScreen.routeName);
-                }
-                else if (selectedItem == MenuItem.logout)
-                {
+                } else if (selectedItem == MenuItem.logout) {
                   logout();
                 }
               });
@@ -455,11 +452,11 @@ class _HomeScreenState extends State<HomeScreen> {
   void logout() {
     AppUser.currentUser = null;
     provider.history.clear();
-    provider.historyTotalProtein = 0 ;
-    provider.historyTotalFats = 0 ;
-    provider.historyTotalCarbs = 0 ;
-    provider.historyTotalCalories = 0 ;
-    provider.historyHealthy = true ;
+    provider.historyTotalProtein = 0;
+    provider.historyTotalFats = 0;
+    provider.historyTotalCarbs = 0;
+    provider.historyTotalCalories = 0;
+    provider.historyHealthy = true;
     provider.deleteFromSharedPreferences();
     Navigator.pushReplacementNamed(context, StartScreen.routeName);
   }

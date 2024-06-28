@@ -6,11 +6,12 @@ class DetailsResponse {
   bool? healthy;
 
   DetailsResponse({
-      this.totalCalories, 
-      this.totalProtein, 
-      this.totalFat, 
-      this.totalCarbohydrates, 
-      this.healthy,});
+    this.totalCalories,
+    this.totalProtein,
+    this.totalFat,
+    this.totalCarbohydrates,
+    this.healthy,
+  });
 
   DetailsResponse.fromJson(dynamic json) {
     totalCalories = json['total_calories'];

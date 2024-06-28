@@ -15,10 +15,11 @@ import 'package:foodie/ui/screens/start/start_screen.dart';
 import 'package:provider/provider.dart';
 import 'ui/screens/home/home_screen.dart';
 
-void main()  async {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  FirebaseFirestore.instance.settings = const Settings(cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED);
+  FirebaseFirestore.instance.settings =
+      const Settings(cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED);
   runApp(ChangeNotifierProvider(
       create: (_) {
         return MainProvider();
@@ -39,7 +40,7 @@ class MyApp extends StatelessWidget {
         LoginScreen.routeName: (_) => const LoginScreen(),
         InfoScreen.routeName: (_) => const InfoScreen(),
         HomeScreen.routeName: (_) => const HomeScreen(),
-        ChatBotScreen.routeName: (_) =>  const ChatBotScreen(),
+        ChatBotScreen.routeName: (_) => const ChatBotScreen(),
         FoodDetailsScreen.routeName: (_) => const FoodDetailsScreen(),
         FoodIngredients.routeName: (_) => const FoodIngredients(),
         QuantitiesOfFood.routeName: (_) => QuantitiesOfFood(),

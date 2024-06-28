@@ -8,7 +8,6 @@ import 'package:foodie/ui/screens/start/start_screen.dart';
 import 'package:foodie/ui/utils/app_assets.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -22,7 +21,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen>
     with TickerProviderStateMixin {
   late final AnimationController animationController;
-  late MainProvider provider ;
+  late MainProvider provider;
 
   @override
   void didChangeDependencies() {
@@ -31,15 +30,14 @@ class _SplashScreenState extends State<SplashScreen>
 
     animationController = AnimationController(vsync: this);
 
-    Future.delayed(const Duration(seconds: 3), () async{
+    Future.delayed(const Duration(seconds: 3), () async {
       AppUser? user = await provider.getFromSharedPreferences();
 
-      if(user != null)
-      {
+      if (user != null) {
         AppUser.currentUser = user;
 
         DocumentReference<AppUser> documentReference =
-        AppUser.collection().doc(AppUser.currentUser!.id);
+            AppUser.collection().doc(AppUser.currentUser!.id);
         DocumentSnapshot<AppUser> snapshot = await documentReference.get();
         snapshot.data();
         provider.age = snapshot.data()!.age;
@@ -58,9 +56,7 @@ class _SplashScreenState extends State<SplashScreen>
         provider.calculateMacronutrients(provider.bmr as double);
 
         Navigator.pushReplacementNamed(context, HomeScreen.routeName);
-      }
-      else
-      {
+      } else {
         Navigator.pushReplacementNamed(context, StartScreen.routeName);
       }
     });
@@ -69,7 +65,6 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   void initState() {
     super.initState();
-
   }
 
   @override
@@ -96,5 +91,4 @@ class _SplashScreenState extends State<SplashScreen>
       ],
     );
   }
-
 }
