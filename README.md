@@ -21,11 +21,7 @@ The Foodie App is a mobile application built using Flutter that allows users to 
 - Gemini API (for the chatbot feature)
 
 ## Screenshots
-<img src="screenshots/splash.png" width="200" height="400" />  <img src="screenshots/start.png" width="200" height="400" />  <img src="screenshots/login.png" width="200" height="400" />  <img src="screenshots/signup.png" width="200" height="400" />  <img src="screenshots/info.png" width="200" height="400" /> <img src="screenshots/home9.png" width="200" height="400" /> 
-
-<img src="screenshots/home1.png" width="200" height="400" />  <img src="screenshots/home2.png" width="200" height="400" />  <img src="screenshots/home3.png" width="200" height="400" /> <img src="screenshots/home4.png" width="200" height="400" /> <img src="screenshots/home5.png" width="200" height="400" />  <img src="screenshots/home6.png" width="200" height="400" />
-
-<img src="screenshots/home7.png" width="200" height="400" /> <img src="screenshots/home8.png" width="200" height="400" /> <img src="screenshots/history.png" width="200" height="400" />  <img src="screenshots/ing2.png" width="200" height="400" />  <img src="screenshots/ing3.png" width="200" height="400" />  <img src="screenshots/chat.png" width="200" height="400" />
+<img src="screenshots/splash.png" width="200" height="400" />  <img src="screenshots/start.png" width="200" height="400" />  <img src="screenshots/login.png" width="200" height="400" />  <img src="screenshots/signup.png" width="200" height="400" />  <img src="screenshots/info.png" width="200" height="400" /> <img src="screenshots/home9.png" width="200" height="400" /> <img src="screenshots/home1.png" width="200" height="400" /> <img src="screenshots/home2.png" width="200" height="400" />  <img src="screenshots/home3.png" width="200" height="400" /> <img src="screenshots/home4.png" width="200" height="400" /> <img src="screenshots/home5.png" width="200" height="400" />  <img src="screenshots/home6.png" width="200" height="400" /> <img src="screenshots/home7.png" width="200" height="400" /> <img src="screenshots/home8.png" width="200" height="400" /> <img src="screenshots/history.png" width="200" height="400" />  <img src="screenshots/ing2.png" width="200" height="400" />  <img src="screenshots/ing3.png" width="200" height="400" />  <img src="screenshots/chat.png" width="200" height="400" />
 
 ## Contact
 If you have any questions or feedback, please feel free to reach out to the project maintainers:
